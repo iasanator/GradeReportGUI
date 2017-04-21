@@ -9,11 +9,11 @@ public class Main {
 
     public static void main(String[] args) {
 
-        final JFrame frame = new JFrame("JDialog Demo");
+        final JFrame frame = new JFrame("Login");
 
         LoginDialog loginDlg = new LoginDialog(frame);
         loginDlg.setVisible(true);
-        // if logon successfully
+
         if(loginDlg.isSucceeded()){
             System.out.println("Hi " + loginDlg.getUsername() + "!");
         }

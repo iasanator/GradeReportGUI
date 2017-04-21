@@ -14,13 +14,6 @@ public class GRFrame extends JFrame{
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(1024, 768);
         setVisible(true);
-        goToLogin();
-    }
-
-    public void goToLogin(){
-        this.panelOnScreen = new LoginPanel();
-        add(panelOnScreen);
-        panelOnScreen.setVisible(true);
     }
 
 
