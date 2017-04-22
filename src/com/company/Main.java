@@ -1,9 +1,8 @@
 package com.company;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.FlowLayout;
+
+import javax.swing.JFrame;
 
 public class Main {
 
@@ -15,7 +14,7 @@ public class Main {
         loginDlg.setVisible(true);
 
         if(loginDlg.isSucceeded()){
-            System.out.println("Hi " + loginDlg.getUsername() + "!");
+            System.out.println("Hello " + loginDlg.getUsername() + "!");
         }
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
