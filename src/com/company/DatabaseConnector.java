@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class DatabaseConnector {
 
     public static void main(String[] args) {
-    	String connectionUrl = "jdbc:sqlserver://localhost:1433;" + 
+    	String connectionUrl = "jdbc:sqlserver://golem.csse.rose-hulman.edu:1433;" + 
     			"databaseName=GradeReport;user=MyUserName;password=*****;";
     	try {
 			Connection con = DriverManager.getConnection(connectionUrl);
