@@ -26,6 +26,7 @@ public class DatabaseConnector {
 	    	}
 	    	rs.close();
 	    	pstmt.close();
+	    	con.close();
 		} catch (SQLException exception) {
 			// TODO Auto-generated catch-block stub.
 			exception.printStackTrace();
