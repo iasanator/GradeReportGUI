@@ -14,7 +14,7 @@ public class DatabaseConnector {
 
     public static void main(String[] args) {
     	String connectionUrl = "jdbc:sqlserver://golem.csse.rose-hulman.edu:1433;" + 
-    			"databaseName=GradeReport_Data;user=UserName;password=*****;";
+    			"databaseName=GradeReport_Data;user=GRuser;password=abc123;";
     	try {
 			Connection con = DriverManager.getConnection(connectionUrl);
 	    	String SQL = "SELECT * FROM Student";
