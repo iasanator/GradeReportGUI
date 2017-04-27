@@ -51,10 +51,10 @@ public class DatabaseConnector {
 			PreparedStatement pstmt = con.prepareStatement(SQL);
 			ResultSet rs = pstmt.executeQuery();
 
-			String output = rs.getString("Validated");
+			boolean output = rs.next();
 			System.out.println(output);
 
-			loggedIn = Boolean.parseBoolean(output);
+			loggedIn = output;
 
 			rs.close();
 			pstmt.close();
