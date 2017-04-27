@@ -34,7 +34,29 @@ public class DatabaseConnector {
     }
 
     public boolean authenticateLogin(String username, String password) {
-         return true;
-    }
+
+		boolean loggedIn = false;
+
+		String connectionUrl = "jdbc:sqlserver://golem.csse.rose-hulman.edu:1433;" +
+				"databaseName=GradeReport_Data;user=GRuser;password=abc123;";
+		try {
+			Connection con = DriverManager.getConnection(connectionUrl);
+			String SQL = "EXEC LoginCheck @Username = " + username + ", @HashPass = " + password;
+			PreparedStatement pstmt = con.prepareStatement(SQL);
+			ResultSet rs = pstmt.executeQuery();
+
+			loggedIn = rs.getBoolean(0);
+
+			rs.close();
+			pstmt.close();
+
+		} catch (SQLException exception) {
+			// TODO Auto-generated catch-block stub.
+			exception.printStackTrace();
+		}
+
+		return loggedIn;
+
+	}
 
 }
