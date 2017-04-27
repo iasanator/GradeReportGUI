@@ -53,7 +53,7 @@ public class LoginDialog extends JDialog {
         btnLoginStudent.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                if (true) {
+                if (new DatabaseConnector().authenticateLogin(getUsername(), getPassword())) {
                     JOptionPane.showMessageDialog(LoginDialog.this,
                             "Hi " + getUsername() + "! You have successfully logged in.",
                             "Login",

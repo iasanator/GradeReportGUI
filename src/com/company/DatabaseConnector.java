@@ -41,11 +41,26 @@ public class DatabaseConnector {
 				"databaseName=GradeReport_Data;user=GRuser;password=abc123;";
 		try {
 			Connection con = DriverManager.getConnection(connectionUrl);
-			String SQL = "EXEC LoginCheck @Username = " + username + ", @HashPass = " + password;
+			String SQL = "USE GradeReport_Data\n" +
+					"GO\n" +
+					"\n" +
+					"DECLARE @validated BIT\n" +
+					"\n" +
+					"EXEC LoginCheck \n" +
+					"\t@Username = " + username + ", \n" +
+					"\t@HashPass = " + password + ", \n" +
+					"\t@result = @validated OUTPUT\n" +
+					"\n" +
+					"SELECT Validated = @validated\n" +
+					"GO";
+
 			PreparedStatement pstmt = con.prepareStatement(SQL);
 			ResultSet rs = pstmt.executeQuery();
 
-			loggedIn = rs.getBoolean(0);
+			String output = rs.getString("Validated");
+			System.out.println(output);
+
+			loggedIn = Boolean.parseBoolean(output);
 
 			rs.close();
 			pstmt.close();
