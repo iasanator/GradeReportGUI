@@ -76,5 +76,9 @@ public class DatabaseConnector {
 		return loggedIn;
 
 	}
+    
+    public static Connection getConnection() {
+    	return con;
+    }
 
 }
