@@ -13,8 +13,8 @@ import java.security.MessageDigest;
  */
 public class DatabaseConnector {
 
-    private Connection con;
-    private final String connectionUrl = "jdbc:sqlserver://golem.csse.rose-hulman.edu:1433;" +
+    private static Connection con;
+    private static final String connectionUrl = "jdbc:sqlserver://golem.csse.rose-hulman.edu:1433;" +
             "databaseName=GradeReport_Data;user=GRuser;password=abc123;";
 
     public static MessageDigest md;
@@ -29,23 +29,23 @@ public class DatabaseConnector {
 
     }
 
-    private void connect() {
+    private static void connect() {
         try {
-            this.con = DriverManager.getConnection(connectionUrl);
+            con = DriverManager.getConnection(connectionUrl);
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
     }
 
-    public void disconnect() {
+    public static void disconnect() {
         try {
-            this.con.close();
+            con.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public boolean authenticateLogin(String username, String password) {
+    public static boolean authenticateLogin(String username, String password) {
 
         boolean loggedIn = false;
 
@@ -98,12 +98,12 @@ public class DatabaseConnector {
         }
     }
 
-    public Connection getConnection(){
+    public static Connection getConnection(){
         connect();
         return con;
     }
 
-    public void closeConnection(){
+    public static void closeConnection(){
         disconnect();
     }
 }
