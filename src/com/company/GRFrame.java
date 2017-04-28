@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 import javax.swing.JFrame;
@@ -48,12 +49,8 @@ public class GRFrame extends JFrame{
 				// TODO Auto-generated method stub.
 				System.out.println("menu pressed");
 				
-				
-				String[] columnNames = {"Type", "Assignment Name", "Earned", "Total Points", "Grade"};
-				
 				JTable table = new JTable();
 				DefaultTableModel model = new DefaultTableModel();
-				model.setColumnIdentifiers(columnNames);
 				table.setModel(model);
 				table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 				table.setFillsViewportHeight(true);
@@ -66,22 +63,26 @@ public class GRFrame extends JFrame{
 				Connection con = DriverManager.getConnection(connectionUrl);
 				String SQL = "EXEC studentAssignments 1, 2";
 				
-				String type;
-				String assignment;
-				String earned;
-				String points;
-				String grade;
-	
-				
 				PreparedStatement pstmt = con.prepareStatement(SQL);
 				ResultSet rs = pstmt.executeQuery();
+				
+				ResultSetMetaData meta = rs.getMetaData();
+				int columnCount = meta.getColumnCount();
+				
+				String[] columnNames = new String[columnCount];
+				
+				for (int i = 0; i < columnCount; i++) {
+					columnNames[i] = meta.getColumnName(i + 1);
+				}
+				
+				model.setColumnIdentifiers(columnNames);
+				
 				while (rs.next()) {
-					type = rs.getString("Type");
-					assignment = rs.getString("Assignment Name");
-					earned = rs.getString("Earned");
-					points = rs.getString("Total Points");
-					grade = rs.getString("Grade");
-					model.addRow(new Object[]{type, assignment, earned, points, grade});
+					Object[] data = new Object[columnCount];
+					for (int i = 0; i < columnCount; i++) {
+						data[i] = rs.getString(columnNames[i]);
+					}
+					model.addRow(data);
 				}
 				add(scroll);
 				setVisible(true);
