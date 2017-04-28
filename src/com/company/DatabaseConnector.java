@@ -55,7 +55,11 @@ public class DatabaseConnector {
 			String output = rs.getString("Validated");
 			System.out.println(output);
 
-			//loggedIn = output;
+			if (output.contains("1")) {
+				loggedIn = true;
+			} else {
+				loggedIn = false;
+			}
 
 			rs.close();
 			pstmt.close();
