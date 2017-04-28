@@ -36,6 +36,10 @@ public class DatabaseConnector {
     public boolean authenticateLogin(String username, String password) {
 
 		boolean loggedIn = false;
+		
+		if (username.isEmpty() || password.isEmpty()) {
+			return loggedIn;
+		}
 
 		String connectionUrl = "jdbc:sqlserver://golem.csse.rose-hulman.edu:1433;" +
 				"databaseName=GradeReport_Data;user=GRuser;password=abc123;";
@@ -53,7 +57,7 @@ public class DatabaseConnector {
 			rs.next();
 
 			String output = rs.getString("Validated");
-			System.out.println(output);
+			//System.out.println(output);
 
 			if (output.contains("1")) {
 				loggedIn = true;
