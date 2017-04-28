@@ -65,12 +65,16 @@ public class LoginDialog extends JDialog {
         btnLoginStudent.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                if (new DatabaseConnector().authenticateLogin(getUsername(), getPassword())) {
+                if (Main.dbConnector.authenticateLogin(getUsername(), getPassword())) {
                     JOptionPane.showMessageDialog(LoginDialog.this,
                             "Hi " + getUsername() + "! You have successfully logged in.",
                             "Login",
                             JOptionPane.INFORMATION_MESSAGE);
                     succeeded = true;
+
+                    Main.isStudent = true;
+                    Main.user = getUsername();
+
                     dispose();
                 } else {
                     JOptionPane.showMessageDialog(LoginDialog.this,
@@ -81,7 +85,6 @@ public class LoginDialog extends JDialog {
                     tfUsername.setText("");
                     pfPassword.setText("");
                     succeeded = false;
-
                 }
             }
         });
@@ -91,12 +94,16 @@ public class LoginDialog extends JDialog {
         btnLoginTeacher.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                if (true) {
+                if (Main.dbConnector.authenticateLogin(getUsername(), getPassword())) {
                     JOptionPane.showMessageDialog(LoginDialog.this,
                             "Hi " + getUsername() + "! You have successfully logged in.",
                             "Login",
                             JOptionPane.INFORMATION_MESSAGE);
                     succeeded = true;
+
+                    Main.isStudent = false;
+                    Main.user = getUsername();
+
                     dispose();
                 } else {
                     JOptionPane.showMessageDialog(LoginDialog.this,
