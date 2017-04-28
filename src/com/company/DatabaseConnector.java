@@ -12,36 +12,36 @@ import java.security.MessageDigest;
  * Created by iassona on 4/21/2017.
  */
 public class DatabaseConnector {
-    static Connection con;
+
+    private Connection con;
+    private final String connectionUrl = "jdbc:sqlserver://golem.csse.rose-hulman.edu:1433;" +
+            "databaseName=GradeReport_Data;user=GRuser;password=abc123;";
 
     public static MessageDigest md;
 
     public DatabaseConnector() {
+
         try{
             DatabaseConnector.md = MessageDigest.getInstance("SHA-256");
         } catch (Exception e) {
             System.out.println(e.getStackTrace());
         }
+
     }
 
-    public static void main(String[] args) {
-        String connectionUrl = "jdbc:sqlserver://golem.csse.rose-hulman.edu:1433;" +
-                "databaseName=GradeReport_Data;user=GRuser;password=abc123;";
+    private void connect() {
         try {
-            Connection con = DriverManager.getConnection(connectionUrl);
-            String SQL = "SELECT * FROM Student";
-            PreparedStatement pstmt = con.prepareStatement(SQL);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                System.out.println(rs.getString("Name"));
-            }
-            rs.close();
-            pstmt.close();
-            con.close();
+            this.con = DriverManager.getConnection(connectionUrl);
         } catch (SQLException exception) {
-            // TODO Auto-generated catch-block stub.
             exception.printStackTrace();
+        }
+    }
+
+    public void disconnect() {
+        try {
+            this.con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -50,13 +50,12 @@ public class DatabaseConnector {
         boolean loggedIn = false;
 
         if (username.isEmpty() || password.isEmpty()) {
-            return loggedIn;
+            return false;
         }
 
-        String connectionUrl = "jdbc:sqlserver://golem.csse.rose-hulman.edu:1433;" +
-                "databaseName=GradeReport_Data;user=GRuser;password=abc123;";
+        connect();
+
         try {
-            Connection con = DriverManager.getConnection(connectionUrl);
             String SQL = "DECLARE @validated BIT;" +
                     "EXEC LoginCheck " +
                     "@Username = " + username + ", " +
@@ -81,9 +80,10 @@ public class DatabaseConnector {
             pstmt.close();
 
         } catch (SQLException exception) {
-            // TODO Auto-generated catch-block stub.
             exception.printStackTrace();
         }
+
+        disconnect();
 
         return loggedIn;
 
@@ -98,8 +98,12 @@ public class DatabaseConnector {
         }
     }
 
-    public static Connection getConnection() {
+    public Connection getConnection(){
+        connect();
         return con;
     }
 
+    public void closeConnection(){
+        disconnect();
+    }
 }
