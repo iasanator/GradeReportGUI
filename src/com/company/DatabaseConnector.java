@@ -96,6 +96,8 @@ public class DatabaseConnector {
         } catch (Exception e) {
             System.out.println(e.getStackTrace());
         }
+
+        return null;
     }
 
     public static Connection getConnection(){
