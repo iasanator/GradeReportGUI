@@ -60,7 +60,7 @@ public class GRFrame extends JFrame{
 				
 				try {
 				Connection con = DatabaseConnector.getConnection();
-				String SQL = "EXEC studentAssignments " + userID + ", 2";
+				String SQL = "EXEC studentAssignments " + userID;
 				
 				PreparedStatement pstmt = con.prepareStatement(SQL);
 				ResultSet rs = pstmt.executeQuery();
