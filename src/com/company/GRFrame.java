@@ -3,7 +3,6 @@ package com.company;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -30,6 +29,8 @@ public class GRFrame extends JFrame{
     JMenuItem menuItem;
     PreparedStatement pstmt;
     ResultSet rs;
+    
+    int userID;
 
     public GRFrame(String title) {
         super(title);
@@ -47,21 +48,19 @@ public class GRFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub.
-				System.out.println("menu pressed");
+				System.out.println("menu pressed User: " + userID);
 				
 				JTable table = new JTable();
 				DefaultTableModel model = new DefaultTableModel();
 				table.setModel(model);
 				table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-				table.setFillsViewportHeight(true);
+				//table.setFillsViewportHeight(true);
 				JScrollPane scroll = new JScrollPane(table);
 				scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 				
-				String connectionUrl = "jdbc:sqlserver://golem.csse.rose-hulman.edu:1433;" + 
-		    			"databaseName=GradeReport_Data;user=GRuser;password=abc123;";
 				try {
-				Connection con = DriverManager.getConnection(connectionUrl);
-				String SQL = "EXEC studentAssignments 1, 2";
+				Connection con = DatabaseConnector.getConnection();
+				String SQL = "EXEC studentAssignments " + userID + ", 2";
 				
 				PreparedStatement pstmt = con.prepareStatement(SQL);
 				ResultSet rs = pstmt.executeQuery();
@@ -90,18 +89,17 @@ public class GRFrame extends JFrame{
 				} catch (SQLException exception) {
 					// TODO Auto-generated catch-block stub.
 					exception.printStackTrace();
-				}
-				
-				
-				
+				}				
 		}});
-        
         menu.add(menuItem);
         this.setJMenuBar(menuBar);
         //setVisible(true);
+        //DatabaseConnector.disconnect();
     }
 
 
-
+    public void setUser(int userID) {
+    	this.userID = userID;
+    }
 
 }

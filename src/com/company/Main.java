@@ -19,6 +19,7 @@ public class Main {
 
         if(loginDlg.isSucceeded()){
             System.out.println("Hello " + Main.user + "!");
+            frame.setUser(loginDlg.getuserID());
             frame.setVisible(true);
             loginDlg.dispose();
         }

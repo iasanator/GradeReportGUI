@@ -1,12 +1,11 @@
 package com.company;
 
+import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import java.security.MessageDigest;
 
 /**
  * Created by iassona on 4/21/2017.
@@ -45,7 +44,7 @@ public class DatabaseConnector {
         }
     }
 
-    public static boolean authenticateLogin(String username, String password) {
+    public static boolean authenticateLogin(String username, String password, LoginDialog logindlg) {
 
         boolean loggedIn = false;
 
@@ -56,7 +55,7 @@ public class DatabaseConnector {
         connect();
 
         try {
-            String SQL = "DECLARE @validated BIT;" +
+            String SQL = "DECLARE @validated INT;" +
                     "EXEC LoginCheck " +
                     "@Username = " + username + ", " +
                     "@HashPass = " + password + ", " +
@@ -66,14 +65,15 @@ public class DatabaseConnector {
             PreparedStatement pstmt = con.prepareStatement(SQL);
             ResultSet rs = pstmt.executeQuery();
             rs.next();
+            
+            int output = rs.getInt("Validated");
+            System.out.println(output);
 
-            String output = rs.getString("Validated");
-            //System.out.println(output);
-
-            if (output.contains("1")) {
-                loggedIn = true;
-            } else {
+            if (output == 0) {
                 loggedIn = false;
+            } else {
+            	loggedIn = true;
+            	logindlg.userID = output;
             }
 
             rs.close();
@@ -86,8 +86,8 @@ public class DatabaseConnector {
         disconnect();
 
         return loggedIn;
+        }
 
-    }
 
     public static String hash(String input){
         try{

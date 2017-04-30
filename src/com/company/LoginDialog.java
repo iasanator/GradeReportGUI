@@ -26,6 +26,8 @@ public class LoginDialog extends JDialog {
     private JButton btnLoginTeacher;
     private JButton btnCancel;
     private boolean succeeded;
+    
+    int userID;
 
     public LoginDialog(Frame parent) {
         super(parent, "Login", true);
@@ -65,7 +67,7 @@ public class LoginDialog extends JDialog {
         btnLoginStudent.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                if (Main.dbConnector.authenticateLogin(getUsername(), getPassword())) {
+                if (Main.dbConnector.authenticateLogin(getUsername(), getPassword(), LoginDialog.this)) {
                     JOptionPane.showMessageDialog(LoginDialog.this,
                             "Hi " + getUsername() + "! You have successfully logged in.",
                             "Login",
@@ -94,7 +96,7 @@ public class LoginDialog extends JDialog {
         btnLoginTeacher.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                if (Main.dbConnector.authenticateLogin(getUsername(), getPassword())) {
+                if (Main.dbConnector.authenticateLogin(getUsername(), getPassword(), LoginDialog.this)) {
                     JOptionPane.showMessageDialog(LoginDialog.this,
                             "Hi " + getUsername() + "! You have successfully logged in.",
                             "Login",
@@ -146,6 +148,10 @@ public class LoginDialog extends JDialog {
 
     public String getPassword() {
         return new String(pfPassword.getPassword());
+    }
+    
+    public int getuserID() {
+    	return userID;
     }
 
     public boolean isSucceeded() {
