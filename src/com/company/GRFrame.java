@@ -49,6 +49,7 @@ public class GRFrame extends JFrame{
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub.
 				System.out.println("menu pressed User: " + userID);
+				getContentPane().removeAll();
 				
 				JTable table = new JTable();
 				DefaultTableModel model = new DefaultTableModel();
@@ -101,6 +102,7 @@ public class GRFrame extends JFrame{
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub.
 				System.out.println("menu pressed User: " + userID);
+				getContentPane().removeAll();
 				
 				JTable table = new JTable();
 				DefaultTableModel model = new DefaultTableModel();
