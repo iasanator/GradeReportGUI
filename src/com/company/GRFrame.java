@@ -93,6 +93,10 @@ public class GRFrame extends JFrame{
         
         
         menu.add(menuItem);
+        
+        menu = new JMenu("Edit");
+        menuBar.add(menu);
+        
         this.setJMenuBar(menuBar);
         //setVisible(true);
         //DatabaseConnector.disconnect();
