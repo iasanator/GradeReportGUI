@@ -1,5 +1,6 @@
 package com.company;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -8,6 +9,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -100,6 +104,70 @@ public class GRFrame extends JFrame{
         menuItem = new JMenuItem("Create class");
         menu.add(menuItem);
         
+        menuItem = new JMenuItem("Add class");
+        menuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JFrame pop = new JFrame("Add class");
+				JComboBox comboBox = new JComboBox();
+				
+				try {
+				Connection con = DatabaseConnector.getConnection();
+				String SQL = "SELECT Name, SectionNumber, CourseListing FROM Class";
+				
+				PreparedStatement pstmt = con.prepareStatement(SQL);
+				ResultSet rs = pstmt.executeQuery();
+				
+				DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
+				comboBox.setModel(comboBoxModel);
+				
+				while(rs.next()) {
+					comboBoxModel.addElement(rs.getString("CourseListing") + ": " + rs.getString("Name") + ": " + rs.getString("SectionNumber"));
+				}
+				
+				pop.getContentPane().add(comboBox, BorderLayout.CENTER);
+				
+				JButton select = new JButton("Select");
+				select.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						// TODO Auto-generated method stub.
+						String item = comboBox.getSelectedItem().toString();
+						
+						String[] array = item.split(": ");
+						System.out.println(array[1]);
+						
+						Connection con = DatabaseConnector.getConnection();
+						String SQL = "INSERT INTO Enrolled(ClassID, StudentID) VALUES (" +
+						"(SELECT ClassID FROM Class WHERE Name = '" + array[1] + 
+						"' AND SectionNumber = " + array[2] + "), " + userID + ")";
+						
+						PreparedStatement pstmt;
+						try {
+							pstmt = con.prepareStatement(SQL);
+							pstmt.execute();
+							pop.dispose();
+						} catch (SQLException exception) {
+							// TODO Auto-generated catch-block stub.
+							exception.printStackTrace();
+						}
+					}
+					
+				});
+				
+				pop.getContentPane().add(select, BorderLayout.PAGE_END);
+				pop.pack();
+				pop.setVisible(true);
+				} catch (SQLException exception) {
+					// TODO Auto-generated catch-block stub.
+					exception.printStackTrace();
+				}				
+		}});
+        
+        menu.add(menuItem);
+        
         menuItem = new JMenuItem("Create category");
         menu.add(menuItem);
         
@@ -151,5 +219,4 @@ public class GRFrame extends JFrame{
 			exception.printStackTrace();
 		}
     }
-
 }
