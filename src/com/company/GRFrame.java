@@ -114,7 +114,8 @@ public class GRFrame extends JFrame{
 				
 				try {
 				Connection con = DatabaseConnector.getConnection();
-				String SQL = "SELECT Name, SectionNumber, CourseListing FROM Class";
+				String SQL = "SELECT Name, SectionNumber, CourseListing FROM Class " +
+				"WHERE NOT ClassID IN (SELECT ClassID FROM Enrolled WHERE StudentID = 4)";
 				
 				PreparedStatement pstmt = con.prepareStatement(SQL);
 				ResultSet rs = pstmt.executeQuery();
