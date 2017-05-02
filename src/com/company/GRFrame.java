@@ -78,7 +78,7 @@ public class GRFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub.
-				System.out.println("menu pressed User: " + userID);
+				//System.out.println("menu pressed User: " + userID);
 				getContentPane().removeAll();
 				
 				try {
@@ -115,7 +115,7 @@ public class GRFrame extends JFrame{
 				try {
 				Connection con = DatabaseConnector.getConnection();
 				String SQL = "SELECT Name, SectionNumber, CourseListing FROM Class " +
-				"WHERE NOT ClassID IN (SELECT ClassID FROM Enrolled WHERE StudentID = 4)";
+				"WHERE NOT ClassID IN (SELECT ClassID FROM Enrolled WHERE StudentID = " + userID + ")";
 				
 				PreparedStatement pstmt = con.prepareStatement(SQL);
 				ResultSet rs = pstmt.executeQuery();
@@ -158,6 +158,8 @@ public class GRFrame extends JFrame{
 					
 				});
 				
+				// Create fields for assignment
+				
 				pop.getContentPane().add(select, BorderLayout.PAGE_END);
 				pop.pack();
 				pop.setVisible(true);
@@ -173,6 +175,101 @@ public class GRFrame extends JFrame{
         menu.add(menuItem);
         
         menuItem = new JMenuItem("Create assignment");
+        menuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JFrame pop = new JFrame("Add class");
+				JComboBox comboBox = new JComboBox();
+				JComboBox comboBox2 = new JComboBox();
+				
+				try {
+				Connection con = DatabaseConnector.getConnection();
+				String SQL = "SELECT Name, SectionNumber, CourseListing FROM Class " +
+				"WHERE ClassID IN (SELECT ClassID FROM Enrolled WHERE StudentID = " + userID + ")";
+				
+				PreparedStatement pstmt = con.prepareStatement(SQL);
+				ResultSet rs = pstmt.executeQuery();
+				
+				DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
+				comboBox.setModel(comboBoxModel);
+				
+				while(rs.next()) {
+					comboBoxModel.addElement(rs.getString("CourseListing") + ": " + rs.getString("Name") + ": " + rs.getString("SectionNumber"));
+				}
+				
+				pop.getContentPane().add(comboBox, BorderLayout.NORTH);
+				
+				comboBox.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {						
+						String item = comboBox.getSelectedItem().toString();
+						
+						String[] array = item.split(": ");
+						//System.out.println(array[1]);
+						
+						try {
+						Connection con = DatabaseConnector.getConnection();
+						String SQL = "SELECT Name FROM Category " +
+						"WHERE ClassID IN (SELECT ClassID FROM Class WHERE Name = '" + array[1] + 
+						"' AND SectionNumber = " + array[2] + ")";
+						
+						PreparedStatement pstmt = con.prepareStatement(SQL);
+						ResultSet rs = pstmt.executeQuery();
+						
+						DefaultComboBoxModel aModel = new DefaultComboBoxModel();
+						comboBox2.setModel(aModel);
+						
+						while(rs.next()) {
+							aModel.addElement(rs.getString("Name"));
+						}
+						
+						} catch (SQLException exception) {
+							// TODO Auto-generated catch-block stub.
+							exception.printStackTrace();
+						}
+						
+					}
+					
+				});
+				
+				pop.getContentPane().add(comboBox2, BorderLayout.CENTER);
+
+				
+				JButton select = new JButton("Select");
+				select.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						// TODO Auto-generated method stub.
+						String item = comboBox.getSelectedItem().toString();
+						
+						Connection con = DatabaseConnector.getConnection();
+						String SQL = "";
+						
+						PreparedStatement pstmt;
+						try {
+							pstmt = con.prepareStatement(SQL);
+							pstmt.execute();
+							pop.dispose();
+						} catch (SQLException exception) {
+							// TODO Auto-generated catch-block stub.
+							exception.printStackTrace();
+						}
+					}
+					
+				});
+				
+				pop.getContentPane().add(select, BorderLayout.PAGE_END);
+				pop.pack();
+				pop.setVisible(true);
+				} catch (SQLException exception) {
+					// TODO Auto-generated catch-block stub.
+					exception.printStackTrace();
+				}				
+		}});
+        
         menu.add(menuItem);
         
         this.setJMenuBar(menuBar);
