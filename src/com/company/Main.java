@@ -33,6 +33,10 @@ public class Main {
 
             //frame.setUser(loginDlg.getuserID());
             //frame.setVisible(true);
+        } else {
+            System.out.println("Login failed. Exiting...");
+            loginDlg.dispose();
+            System.exit(0);
         }
 
         //
