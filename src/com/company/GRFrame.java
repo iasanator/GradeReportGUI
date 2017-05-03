@@ -30,14 +30,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class GRFrame extends JFrame{
 
-    private JPanel panelOnScreen;
-    JMenuBar menuBar;
-    JMenu menu;
-    JMenuItem menuItem;
-    PreparedStatement pstmt;
-    ResultSet rs;
-    
-    int userID;
+	private JPanel panelOnScreen;
+	JMenuBar menuBar;
+	JMenu menu;
+	JMenuItem menuItem;
+	PreparedStatement pstmt;
+	ResultSet rs;
+
+	int userID;
 
     public GRFrame(String title) {
         super(title);
@@ -191,7 +191,7 @@ public class GRFrame extends JFrame{
 
 				JComboBox comboBox = new JComboBox();
 				JComboBox comboBox2 = new JComboBox();
-				
+
 				try {
 				Connection con = DatabaseConnector.getConnection();
 				String SQL = "SELECT Name, SectionNumber, CourseListing FROM Class " +
