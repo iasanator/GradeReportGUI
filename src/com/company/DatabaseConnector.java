@@ -44,7 +44,7 @@ public class DatabaseConnector {
         }
     }
 
-    public static boolean authenticateLogin(String username, String password, LoginDialog logindlg) {
+    public static boolean authenticateLogin(String username, String password, boolean isStudent, LoginDialog logindlg) {
 
         boolean loggedIn = false;
 
@@ -52,11 +52,18 @@ public class DatabaseConnector {
             return false;
         }
 
+        String modifier;
+        if (isStudent) {
+            modifier = "_Student";
+        } else {
+            modifier = "_Teacher";
+        }
+
         connect();
 
         try {
             String SQL = "DECLARE @validated INT;" +
-                    "EXEC LoginCheck " +
+                    "EXEC LoginCheck" + modifier + " " +
                     "@Username = " + username + ", " +
                     "@HashPass = \'" + hash(password) + "\', " +
                     "@result = @validated OUTPUT;" +

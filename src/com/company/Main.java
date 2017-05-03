@@ -1,5 +1,7 @@
 package com.company;
 
+import javax.swing.*;
+
 public class Main {
 
     public static DatabaseConnector dbConnector;
@@ -8,21 +10,34 @@ public class Main {
     public static int userID;
     public static boolean isStudent;
 
+    public static GRFrame frame;
+
     public static void main(String[] args) {
 
         Main.dbConnector = new DatabaseConnector();
 
-        final GRFrame frame = new GRFrame("GradeReport");
-
-        LoginDialog loginDlg = new LoginDialog(frame);
+        LoginDialog loginDlg = new LoginDialog(new JFrame());
         loginDlg.setVisible(true);
 
         if(loginDlg.isSucceeded()){
-            System.out.println("Hello " + Main.user + "!");
-            frame.setUser(loginDlg.getuserID());
-            frame.setVisible(true);
+
             loginDlg.dispose();
+
+            System.out.println(Main.user + ":" + Main.userID + ":" + isStudent);
+
+            if (Main.isStudent) {
+                //Main.frame = new GRFrameStudent("GradeReport: Student Edition v0.000000001");
+            } else {
+                //Main.frame = new GRFrameTeacher("GradeReport: Teacher Edition v0.000000001");
+            }
+
+            //frame.setUser(loginDlg.getuserID());
+            //frame.setVisible(true);
         }
+
+        //
+
+
 
 //        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        frame.setSize(1024, 780);
