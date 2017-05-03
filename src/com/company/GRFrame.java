@@ -1,6 +1,8 @@
 package com.company;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -19,6 +21,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
@@ -110,6 +113,7 @@ public class GRFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				JFrame pop = new JFrame("Add class");
+				
 				JComboBox comboBox = new JComboBox();
 				
 				try {
@@ -158,7 +162,6 @@ public class GRFrame extends JFrame{
 					
 				});
 				
-				// Create fields for assignment
 				
 				pop.getContentPane().add(select, BorderLayout.PAGE_END);
 				pop.pack();
@@ -180,6 +183,12 @@ public class GRFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				JFrame pop = new JFrame("Add class");
+
+				JPanel panel = new JPanel(new GridBagLayout());
+				GridBagConstraints cs = new GridBagConstraints();
+				
+				cs.fill = GridBagConstraints.HORIZONTAL;
+
 				JComboBox comboBox = new JComboBox();
 				JComboBox comboBox2 = new JComboBox();
 				
@@ -198,7 +207,10 @@ public class GRFrame extends JFrame{
 					comboBoxModel.addElement(rs.getString("CourseListing") + ": " + rs.getString("Name") + ": " + rs.getString("SectionNumber"));
 				}
 				
-				pop.getContentPane().add(comboBox, BorderLayout.NORTH);
+				cs.gridx = 0;
+				cs.gridy = 0;
+				cs.gridwidth = 1;
+				panel.add(comboBox, cs);
 				
 				comboBox.addActionListener(new ActionListener() {
 
@@ -234,8 +246,25 @@ public class GRFrame extends JFrame{
 					
 				});
 				
-				pop.getContentPane().add(comboBox2, BorderLayout.CENTER);
-
+				cs.gridx = 0;
+				cs.gridy = 1;
+				cs.gridwidth = 1;
+				panel.add(comboBox2, cs);
+				
+				// Create fields for assignment
+				JTextField name = new JTextField("Name");
+				
+				cs.gridx = 0;
+				cs.gridy = 3;
+				cs.gridwidth = 1;
+				panel.add(name, cs);
+				
+				JTextField points = new JTextField("Total Points");
+				
+				cs.gridx = 0;
+				cs.gridy = 4;
+				cs.gridwidth = 1;
+				panel.add(points, cs);
 				
 				JButton select = new JButton("Select");
 				select.addActionListener(new ActionListener() {
@@ -243,10 +272,19 @@ public class GRFrame extends JFrame{
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						// TODO Auto-generated method stub.
+						String category = comboBox2.getSelectedItem().toString();
+						String assignmentName = name.getText();
+						String assignmentPoints = points.getText();
 						String item = comboBox.getSelectedItem().toString();
 						
+						String[] array = item.split(": ");
+						
 						Connection con = DatabaseConnector.getConnection();
-						String SQL = "";
+						String SQL = "INSERT INTO Assignment VALUES (" +
+						"(SELECT CategoryID FROM Category WHERE Name = '" + category +
+						"' AND ClassID IN (SELECT ClassID FROM Class WHERE Name = '" + array[1] + 
+						"' AND SectionNumber = " + array[2] + ")), '" + assignmentName +
+						"', " + assignmentPoints + ")";
 						
 						PreparedStatement pstmt;
 						try {
@@ -261,7 +299,11 @@ public class GRFrame extends JFrame{
 					
 				});
 				
-				pop.getContentPane().add(select, BorderLayout.PAGE_END);
+				cs.gridx = 0;
+				cs.gridy = 5;
+				cs.gridwidth = 1;
+				panel.add(select, cs);
+				pop.add(panel);
 				pop.pack();
 				pop.setVisible(true);
 				} catch (SQLException exception) {
@@ -270,6 +312,9 @@ public class GRFrame extends JFrame{
 				}				
 		}});
         
+        menu.add(menuItem);
+        
+        menuItem = new JMenuItem("Create grade");
         menu.add(menuItem);
         
         this.setJMenuBar(menuBar);
