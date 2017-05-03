@@ -58,22 +58,22 @@ public class DatabaseConnector {
             String SQL = "DECLARE @validated INT;" +
                     "EXEC LoginCheck " +
                     "@Username = " + username + ", " +
-                    "@HashPass = " + password + ", " +
+                    "@HashPass = \'" + hash(password) + "\', " +
                     "@result = @validated OUTPUT;" +
                     "SELECT Validated = @validated;";
 
             PreparedStatement pstmt = con.prepareStatement(SQL);
             ResultSet rs = pstmt.executeQuery();
             rs.next();
-            
+
             int output = rs.getInt("Validated");
-            System.out.println(output);
 
             if (output == 0) {
                 loggedIn = false;
             } else {
-            	loggedIn = true;
-            	logindlg.userID = output;
+                loggedIn = true;
+                logindlg.userID = output;
+                Main.userID = output;
             }
 
             rs.close();
@@ -86,7 +86,7 @@ public class DatabaseConnector {
         disconnect();
 
         return loggedIn;
-        }
+    }
 
 
     public static String hash(String input){
