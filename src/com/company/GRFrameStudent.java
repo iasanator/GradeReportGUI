@@ -383,17 +383,19 @@ public class GRFrameStudent extends GRFrame {
 
                         @Override
                         public void actionPerformed(ActionEvent arg0) {
-                            //String item = comboBox.getSelectedItem().toString();
+                            String item = comboBox.getSelectedItem().toString();
                             String item2 =comboBox2.getSelectedItem().toString();
 
-                            //String[] array = item.split(": ");
+                            String[] array = item.split(": ");
                             //System.out.println(array[1]);
 
                             try {
                                 Connection con = DatabaseConnector.getConnection();
                                 String SQL = "SELECT Name FROM Assignment " +
                                         "WHERE CategoryID IN (SELECT CategoryID FROM Category WHERE Name = '"
-                                        + item2 + "') AND AssignmentID NOT IN (SELECT AssignmentID FROM Grade "
+                                        + item2 + "' AND ClassID IN (SELECT ClassID FROM Class WHERE Name = '" + array[1] +
+                                        "' AND SectionNumber = " + array[2] + ")" 
+                                        + ") AND AssignmentID NOT IN (SELECT AssignmentID FROM Grade "
                                         + "WHERE StudentID = " + Main.userID + ")";
 
                                 PreparedStatement pstmt = con.prepareStatement(SQL);
@@ -429,37 +431,41 @@ public class GRFrameStudent extends GRFrame {
                     panel.add(points, cs);
 
                     JButton select = new JButton("Select");
-//                    select.addActionListener(new ActionListener() {
-//
-//                        @Override
-//                        public void actionPerformed(ActionEvent arg0) {
-//                            // TODO Auto-generated method stub.
-//                            String category = comboBox2.getSelectedItem().toString();
-//                            String assignmentName = name.getText();
-//                            String assignmentPoints = points.getText();
-//                            String item = comboBox.getSelectedItem().toString();
-//
-//                            String[] array = item.split(": ");
-//
-//                            Connection con = DatabaseConnector.getConnection();
-//                            String SQL = "INSERT INTO Assignment VALUES (" +
-//                                    "(SELECT CategoryID FROM Category WHERE Name = '" + category +
-//                                    "' AND ClassID IN (SELECT ClassID FROM Class WHERE Name = '" + array[1] +
-//                                    "' AND SectionNumber = " + array[2] + ")), '" + assignmentName +
-//                                    "', " + assignmentPoints + ")";
-//
-//                            PreparedStatement pstmt;
-//                            try {
-//                                pstmt = con.prepareStatement(SQL);
-//                                pstmt.execute();
-//                                pop.dispose();
-//                            } catch (SQLException exception) {
-//                                // TODO Auto-generated catch-block stub.
-//                                exception.printStackTrace();
-//                            }
-//                        }
-//
-//                    });
+                    select.addActionListener(new ActionListener() {
+
+                        @Override
+                        public void actionPerformed(ActionEvent arg0) {
+                            // TODO Auto-generated method stub.
+                            String category = comboBox2.getSelectedItem().toString();
+                            String assignmentName = comboBox3.getSelectedItem().toString();
+                            String assignmentPoints = points.getText();
+                            String item = comboBox.getSelectedItem().toString();
+
+                            String[] array = item.split(": ");
+
+                            Connection con = DatabaseConnector.getConnection();
+                            String SQL = "INSERT INTO Grade VALUES (" + Main.userID
+                                    + ", (SELECT AssignmentID FROM Assignment WHERE " 
+                            		+ "Name = '" + assignmentName + "' AND CategoryID IN "
+                            		+ "(SELECT CategoryID FROM Category WHERE"
+                            		+ " Name = '"
+                                            + category + "' AND ClassID IN (SELECT ClassID FROM Class " 
+                                            +" WHERE Name = '" + array[1] +
+                                        "' AND SectionNumber = " + array[2] + "))),"
+                            		+ assignmentPoints + ")";
+
+                            PreparedStatement pstmt;
+                            try {
+                                pstmt = con.prepareStatement(SQL);
+                                pstmt.execute();
+                                pop.dispose();
+                            } catch (SQLException exception) {
+                                // TODO Auto-generated catch-block stub.
+                                exception.printStackTrace();
+                            }
+                        }
+
+                    });
 
                     cs.gridx = 0;
                     cs.gridy = 5;
