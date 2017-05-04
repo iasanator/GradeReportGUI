@@ -133,6 +133,8 @@ public class LoginDialog extends JDialog {
         pack();
         setResizable(false);
         setLocationRelativeTo(parent);
+
+        this.getRootPane().setDefaultButton(btnLoginStudent);
     }
 
     public String getUsername() {

@@ -10,7 +10,7 @@ public class Main {
     public static int userID;
     public static boolean isStudent;
 
-    public static GRFrameTeacher frame;
+    public static GRFrame frame;
 
     public static void main(String[] args) {
 
@@ -26,12 +26,11 @@ public class Main {
             System.out.println(Main.user + ":" + Main.userID + ":" + isStudent);
 
             if (Main.isStudent) {
-                //Main.frame = new GRFrameStudent("GradeReport: Student Edition v0.000000001");
+                frame = new GRFrameStudent();
             } else {
                 frame = new GRFrameTeacher();
             }
 
-            //frame.setUser(loginDlg.getuserID());
             frame.setVisible(true);
         } else {
             System.out.println("Login failed. Exiting...");

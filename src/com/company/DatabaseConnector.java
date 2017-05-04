@@ -111,8 +111,4 @@ public class DatabaseConnector {
         connect();
         return con;
     }
-
-    public static void closeConnection(){
-        disconnect();
-    }
 }
