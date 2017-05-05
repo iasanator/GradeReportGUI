@@ -317,7 +317,7 @@ public class GRFrameStudent extends GRFrame {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                JFrame pop = new JFrame("Add class");
+                JFrame pop = new JFrame("Add assignment");
 
                 JPanel panel = new JPanel(new GridBagLayout());
                 GridBagConstraints cs = new GridBagConstraints();
