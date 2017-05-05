@@ -46,19 +46,64 @@ public class GRFrameStudent extends GRFrame {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                // TODO Auto-generated method stub.
-                System.out.println("menu pressed User: " + Main.userID);
-                getContentPane().removeAll();
+            	JFrame pop = new JFrame("Add class");
+
+                JComboBox comboBox = new JComboBox();
 
                 try {
                     Connection con = DatabaseConnector.getConnection();
-                    String SQL = "EXEC studentAssignments " + Main.userID;
+                    String SQL = "SELECT Name, SectionNumber, CourseListing FROM Class " +
+                            "WHERE ClassID IN (SELECT ClassID FROM Enrolled WHERE StudentID = " + Main.userID + ")";
 
                     PreparedStatement pstmt = con.prepareStatement(SQL);
                     ResultSet rs = pstmt.executeQuery();
 
-                    makeTable(rs);
+                    DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
+                    comboBox.setModel(comboBoxModel);
 
+                    while(rs.next()) {
+                        comboBoxModel.addElement(rs.getString("CourseListing") + ": " + rs.getString("Name") + ": " + rs.getString("SectionNumber"));
+                    }
+
+                    pop.getContentPane().add(comboBox, BorderLayout.CENTER);
+
+                    JButton select = new JButton("Select");
+                    select.addActionListener(new ActionListener() {
+
+                        @Override
+                        public void actionPerformed(ActionEvent arg0) {
+                            // TODO Auto-generated method stub.
+                            String item = comboBox.getSelectedItem().toString();
+
+                            String[] array = item.split(": ");
+                            System.out.println(array[1]);
+
+                            Connection con = DatabaseConnector.getConnection();
+                            String SQL = "DECLARE @classID int;" +
+                                    "SELECT @classID = ClassID FROM Class WHERE Name = '" + array[1] +
+                                    "' AND SectionNumber = " + array[2] + ";"
+                                    + "EXEC studentAssignments " + Main.userID + ", @classID";
+
+                            PreparedStatement pstmt;
+                            try {
+                                pstmt = con.prepareStatement(SQL);
+                                ResultSet rs = pstmt.executeQuery();
+                                getContentPane().removeAll();
+                                makeTable(rs);
+                                pstmt.close();
+                                pop.dispose();
+                            } catch (SQLException exception) {
+                                // TODO Auto-generated catch-block stub.
+                                exception.printStackTrace();
+                            }
+                        }
+
+                    });
+
+
+                    pop.getContentPane().add(select, BorderLayout.PAGE_END);
+                    pop.pack();
+                    pop.setVisible(true);
                 } catch (SQLException exception) {
                     // TODO Auto-generated catch-block stub.
                     exception.printStackTrace();
