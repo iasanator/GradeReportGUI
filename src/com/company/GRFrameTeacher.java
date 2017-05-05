@@ -54,6 +54,76 @@ public class GRFrameTeacher extends GRFrame {
 
         menu.add(menuItem);
 
+        menuItem = new JMenuItem("View Roster");
+        menuItem.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                JFrame pop = new JFrame("Select Class");
+
+                JComboBox comboBox = new JComboBox();
+
+                try {
+                    Connection con = DatabaseConnector.getConnection();
+                    String SQL = "SELECT Name, SectionNumber, CourseListing FROM Class " +
+                            "WHERE ClassID IN (SELECT ClassID FROM Class WHERE TeacherID = " + Main.userID + ")";
+
+                    PreparedStatement pstmt = con.prepareStatement(SQL);
+                    ResultSet rs = pstmt.executeQuery();
+
+                    DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
+                    comboBox.setModel(comboBoxModel);
+
+                    while(rs.next()) {
+                        comboBoxModel.addElement(rs.getString("CourseListing") + ": " + rs.getString("Name") + ": " + rs.getString("SectionNumber"));
+                    }
+
+                    pop.getContentPane().add(comboBox, BorderLayout.CENTER);
+
+                    JButton select = new JButton("Select");
+                    select.addActionListener(new ActionListener() {
+
+                        @Override
+                        public void actionPerformed(ActionEvent arg0) {
+                            // TODO Auto-generated method stub.
+                            String item = comboBox.getSelectedItem().toString();
+
+                            String[] array = item.split(": ");
+                            System.out.println(array[2]);
+
+                            Connection con = DatabaseConnector.getConnection();
+                            String SQL = "DECLARE @input INT; " +
+                                            "SELECT @input = classID FROM Class WHERE Name = '" + array[1] +
+                                            "' AND SectionNumber = " + array[2] + ";" +
+                                            "EXEC classGradeRoster @ClassID = @input";
+
+                            PreparedStatement pstmt;
+                            try {
+                                pstmt = con.prepareStatement(SQL);
+                                ResultSet rs = pstmt.executeQuery();
+                                makeTable(rs);
+                                pstmt.close();
+                                pop.dispose();
+                            } catch (SQLException exception) {
+                                // TODO Auto-generated catch-block stub.
+                                exception.printStackTrace();
+                            }
+                        }
+
+                    });
+
+
+                    pop.getContentPane().add(select, BorderLayout.PAGE_END);
+                    pop.pack();
+                    pop.setVisible(true);
+                } catch (SQLException exception) {
+                    // TODO Auto-generated catch-block stub.
+                    exception.printStackTrace();
+                }
+            }});
+
+        menu.add(menuItem);
+
         menu = new JMenu("Edit");
         menuBar.add(menu);
 
