@@ -210,8 +210,106 @@ public class GRFrameStudent extends GRFrame {
             }});
 
         menu.add(menuItem);
-
+        
         menuItem = new JMenuItem("Create category");
+        menuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				final JFrame pop = new JFrame("Select Class");
+				JPanel panel = new JPanel(new GridBagLayout());
+				
+				final JComboBox comboBox = new JComboBox();
+				GridBagConstraints layout = new GridBagConstraints();
+
+                layout.fill = GridBagConstraints.HORIZONTAL; 
+				
+				try {
+				Connection con = DatabaseConnector.getConnection();
+				String SQL = "SELECT Name, SectionNumber, CourseListing FROM Class " +
+				"WHERE ClassID IN (SELECT ClassID FROM Enrolled WHERE StudentID = " + Main.userID + ")";
+				
+				PreparedStatement pstmt = con.prepareStatement(SQL);
+				ResultSet rs = pstmt.executeQuery();
+				
+				DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
+				comboBox.setModel(comboBoxModel);
+				
+				while(rs.next()) {
+					comboBoxModel.addElement(rs.getString("CourseListing") + ": " + rs.getString("Name") + ": " + rs.getString("SectionNumber"));
+				}
+				layout.gridx = 0;
+				layout.gridy = 0;
+				layout.gridwidth = 1;
+				panel.add(comboBox, layout);
+
+				final JTextField nameText = new JTextField("Name");
+				layout.gridy = 1;
+				panel.add(nameText, layout);
+				final JTextField weightText = new JTextField("Weight as %");
+				layout.gridy = 2;
+				panel.add(weightText, layout);
+				final JButton sendButton = new JButton("Submit");
+				
+				sendButton.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						// TODO Auto-generated method stub.
+						String catName;
+						float catWeight;
+						int categoryID;
+						int classID;
+						String item = comboBox.getSelectedItem().toString();
+						
+						String[] array = item.split(": ");
+						//System.out.println(array[1]);
+						
+						Connection con1 = DatabaseConnector.getConnection();
+						String catID = "(SELECT MAX(CategoryID) FROM Category)";
+						String clsID = "(SELECT ClassID FROM Class WHERE Name = '" + array[1] + 
+						"' AND SectionNumber = " + array[2] + ")";
+						
+						catName = nameText.getText();
+						catWeight = Integer.parseInt(weightText.getText());
+						catWeight/=100;
+						
+						PreparedStatement pstmt;
+						try {
+							ResultSet temp;
+							pstmt = con1.prepareStatement(catID);
+							temp = pstmt.executeQuery();
+							temp.next();
+							categoryID = temp.getInt(1);
+							categoryID +=1;
+							pstmt = con1.prepareStatement(clsID);
+							temp = pstmt.executeQuery();
+							temp.next();
+							classID = temp.getInt(1);
+							String insert = "INSERT INTO Category VALUES (" + categoryID + ", " 
+										+ classID + ", " +catName + ", " + catWeight + ");";
+							nameText.setText("Next Name");
+							weightText.setText("Next Weight");
+							
+									
+						} catch (SQLException exception) {
+							// TODO Auto-generated catch-block stub.
+							exception.printStackTrace();
+							
+						}
+
+					}});
+				layout.gridy = 3;
+				panel.add(sendButton, layout);	
+				
+				pop.add(panel);
+				pop.pack();
+				pop.setVisible(true);
+				} catch (SQLException exception) {
+					// TODO Auto-generated catch-block stub.
+					exception.printStackTrace();
+				}				
+		}});
         menu.add(menuItem);
 
         menuItem = new JMenuItem("Create assignment");
