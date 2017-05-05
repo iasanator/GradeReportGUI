@@ -258,7 +258,6 @@ public class GRFrameStudent extends GRFrame {
 						// TODO Auto-generated method stub.
 						String catName;
 						float catWeight;
-						int categoryID;
 						int classID;
 						String item = comboBox.getSelectedItem().toString();
 						
@@ -266,7 +265,6 @@ public class GRFrameStudent extends GRFrame {
 						//System.out.println(array[1]);
 						
 						Connection con1 = DatabaseConnector.getConnection();
-						String catID = "(SELECT MAX(CategoryID) FROM Category)";
 						String clsID = "(SELECT ClassID FROM Class WHERE Name = '" + array[1] + 
 						"' AND SectionNumber = " + array[2] + ")";
 						
@@ -277,17 +275,15 @@ public class GRFrameStudent extends GRFrame {
 						PreparedStatement pstmt;
 						try {
 							ResultSet temp;
-							pstmt = con1.prepareStatement(catID);
-							temp = pstmt.executeQuery();
-							temp.next();
-							categoryID = temp.getInt(1);
-							categoryID +=1;
+							
 							pstmt = con1.prepareStatement(clsID);
 							temp = pstmt.executeQuery();
 							temp.next();
 							classID = temp.getInt(1);
-							String insert = "INSERT INTO Category VALUES (" + categoryID + ", " 
+							String insert = "INSERT INTO Category (ClassID, Name, Weight) VALUES ("+ 
 										+ classID + ", " +catName + ", " + catWeight + ");";
+							pstmt = con1.prepareStatement(insert);
+							pstmt.executeQuery();
 							nameText.setText("Next Name");
 							weightText.setText("Next Weight");
 							
