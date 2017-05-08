@@ -27,7 +27,14 @@ public class GRFrame extends JFrame{
     
     public void makeTable(ResultSet rs) {
     	JTable table = new JTable();
-		DefaultTableModel model = new DefaultTableModel();
+		DefaultTableModel model = new DefaultTableModel() {
+			
+			@Override
+			public boolean isCellEditable(int i, int i1) {
+				return false;
+			}
+			
+		};
 		table.setModel(model);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		//table.setFillsViewportHeight(true);
