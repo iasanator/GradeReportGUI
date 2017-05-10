@@ -5,6 +5,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -53,9 +55,10 @@ public class GRFrameStudent extends GRFrame {
                 try {
                     Connection con = DatabaseConnector.getConnection();
                     String SQL = "SELECT Name, SectionNumber, CourseListing FROM Class " +
-                            "WHERE ClassID IN (SELECT ClassID FROM Enrolled WHERE StudentID = " + Main.userID + ")";
+                            "WHERE ClassID IN (SELECT ClassID FROM Enrolled WHERE StudentID = ?)";
 
                     PreparedStatement pstmt = con.prepareStatement(SQL);
+                    pstmt.setString(1, String.valueOf(Main.userID));
                     ResultSet rs = pstmt.executeQuery();
 
                     DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
@@ -80,13 +83,16 @@ public class GRFrameStudent extends GRFrame {
 
                             Connection con = DatabaseConnector.getConnection();
                             String SQL = "DECLARE @classID int;" +
-                                    "SELECT @classID = ClassID FROM Class WHERE Name = '" + array[1] +
-                                    "' AND SectionNumber = " + array[2] + ";"
-                                    + "EXEC studentAssignments " + Main.userID + ", @classID";
+                                    "SELECT @classID = ClassID FROM Class WHERE Name = ?" +
+                                    " AND SectionNumber = ?;"
+                                    + "EXEC studentAssignments ?, @classID";
 
                             PreparedStatement pstmt;
                             try {
                                 pstmt = con.prepareStatement(SQL);
+                                pstmt.setString(1, array[1]);
+                                pstmt.setString(2, array[2]);
+                                pstmt.setString(3, String.valueOf(Main.userID));
                                 ResultSet rs = pstmt.executeQuery();
                                 getContentPane().removeAll();
                                 makeTable(rs);
@@ -123,9 +129,10 @@ public class GRFrameStudent extends GRFrame {
 
                 try {
                     Connection con = DatabaseConnector.getConnection();
-                    String SQL = "EXEC studentGradeRoster " + Main.userID;
+                    String SQL = "EXEC studentGradeRoster ?";
 
                     PreparedStatement pstmt = con.prepareStatement(SQL);
+                    pstmt.setString(1, String.valueOf(Main.userID));
                     ResultSet rs = pstmt.executeQuery();
 
                     makeTable(rs);
@@ -156,9 +163,10 @@ public class GRFrameStudent extends GRFrame {
                 try {
                     Connection con = DatabaseConnector.getConnection();
                     String SQL = "SELECT Name, SectionNumber, CourseListing FROM Class " +
-                            "WHERE NOT ClassID IN (SELECT ClassID FROM Enrolled WHERE StudentID = " + Main.userID + ")";
+                            "WHERE NOT ClassID IN (SELECT ClassID FROM Enrolled WHERE StudentID = ?)";
 
                     PreparedStatement pstmt = con.prepareStatement(SQL);
+                    pstmt.setString(1, String.valueOf(Main.userID));
                     ResultSet rs = pstmt.executeQuery();
 
                     DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
@@ -183,12 +191,15 @@ public class GRFrameStudent extends GRFrame {
 
                             Connection con = DatabaseConnector.getConnection();
                             String SQL = "INSERT INTO Enrolled(ClassID, StudentID) VALUES (" +
-                                    "(SELECT ClassID FROM Class WHERE Name = '" + array[1] +
-                                    "' AND SectionNumber = " + array[2] + "), " + Main.userID + ")";
+                                    "(SELECT ClassID FROM Class WHERE Name = ?" +
+                                    " AND SectionNumber = ?), ?)";
 
                             PreparedStatement pstmt;
                             try {
                                 pstmt = con.prepareStatement(SQL);
+                                pstmt.setString(1, array[1]);
+                                pstmt.setString(2, array[2]);
+                                pstmt.setString(3, String.valueOf(Main.userID));
                                 pstmt.execute();
                                 pop.dispose();
                             } catch (SQLException exception) {
@@ -227,9 +238,10 @@ public class GRFrameStudent extends GRFrame {
 				try {
 				Connection con = DatabaseConnector.getConnection();
 				String SQL = "SELECT Name, SectionNumber, CourseListing FROM Class " +
-				"WHERE ClassID IN (SELECT ClassID FROM Enrolled WHERE StudentID = " + Main.userID + ")";
+				"WHERE ClassID IN (SELECT ClassID FROM Enrolled WHERE StudentID = ?)";
 				
 				PreparedStatement pstmt = con.prepareStatement(SQL);
+				pstmt.setString(1, String.valueOf(Main.userID));
 				ResultSet rs = pstmt.executeQuery();
 				
 				DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
@@ -244,9 +256,23 @@ public class GRFrameStudent extends GRFrame {
 				panel.add(comboBox, layout);
 
 				final JTextField nameText = new JTextField("Name");
+                    nameText.addKeyListener(new KeyAdapter() {
+                        public void keyTyped(KeyEvent e) {
+                            if (nameText.getText().length() >= Main.MAX_STRING_SIZE ) {
+                                e.consume();
+                            }
+                        }
+                    });
 				layout.gridy = 1;
 				panel.add(nameText, layout);
 				final JTextField weightText = new JTextField("Weight as %");
+                    weightText.addKeyListener(new KeyAdapter() {
+                        public void keyTyped(KeyEvent e) {
+                            if (weightText.getText().length() >= Main.MAX_STRING_SIZE ) {
+                                e.consume();
+                            }
+                        }
+                    });
 				layout.gridy = 2;
 				panel.add(weightText, layout);
 				final JButton sendButton = new JButton("Submit");
@@ -265,8 +291,8 @@ public class GRFrameStudent extends GRFrame {
 						//System.out.println(array[1]);
 						
 						Connection con1 = DatabaseConnector.getConnection();
-						String clsID = "(SELECT ClassID FROM Class WHERE Name = '" + array[1] + 
-						"' AND SectionNumber = " + array[2] + ")";
+						String clsID = "(SELECT ClassID FROM Class WHERE Name = ?" +
+						" AND SectionNumber = ?)";
 						
 						catName = nameText.getText();
 						catWeight = Integer.parseInt(weightText.getText());
@@ -277,12 +303,16 @@ public class GRFrameStudent extends GRFrame {
 							ResultSet temp;
 							
 							pstmt = con1.prepareStatement(clsID);
+							pstmt.setString(1, array[1]);
+							pstmt.setString(2, array[2]);
 							temp = pstmt.executeQuery();
 							temp.next();
 							classID = temp.getInt(1);
-							String insert = "INSERT INTO Category (ClassID, Name, Weight) VALUES ("+ 
-										+ classID + ", " +catName + ", " + catWeight + ");";
+							String insert = "INSERT INTO Category (ClassID, Name, Weight) VALUES (?, ?, ?);";
 							pstmt = con1.prepareStatement(insert);
+							pstmt.setString(1, String.valueOf(classID));
+							pstmt.setString(2, catName);
+							pstmt.setString(3, String.valueOf(catWeight));
 							pstmt.executeQuery();
 							nameText.setText("Next Name");
 							weightText.setText("Next Weight");
@@ -313,7 +343,7 @@ public class GRFrameStudent extends GRFrame {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                JFrame pop = new JFrame("Add assignment");
+                JFrame pop = new JFrame("Create assignment");
 
                 JPanel panel = new JPanel(new GridBagLayout());
                 GridBagConstraints cs = new GridBagConstraints();
@@ -326,9 +356,10 @@ public class GRFrameStudent extends GRFrame {
                 try {
                     Connection con = DatabaseConnector.getConnection();
                     String SQL = "SELECT Name, SectionNumber, CourseListing FROM Class " +
-                            "WHERE ClassID IN (SELECT ClassID FROM Enrolled WHERE StudentID = " + Main.userID + ")";
+                            "WHERE ClassID IN (SELECT ClassID FROM Enrolled WHERE StudentID = ?)";
 
                     PreparedStatement pstmt = con.prepareStatement(SQL);
+                    pstmt.setString(1, String.valueOf(Main.userID));
                     ResultSet rs = pstmt.executeQuery();
 
                     DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
@@ -354,10 +385,12 @@ public class GRFrameStudent extends GRFrame {
                             try {
                                 Connection con = DatabaseConnector.getConnection();
                                 String SQL = "SELECT Name FROM Category " +
-                                        "WHERE ClassID IN (SELECT ClassID FROM Class WHERE Name = '" + array[1] +
-                                        "' AND SectionNumber = " + array[2] + ")";
+                                        "WHERE ClassID IN (SELECT ClassID FROM Class WHERE Name = ? " +
+                                        "AND SectionNumber = ?)";
 
                                 PreparedStatement pstmt = con.prepareStatement(SQL);
+                                pstmt.setString(1, array[1]);
+                                pstmt.setString(2, array[2]);
                                 ResultSet rs = pstmt.executeQuery();
 
                                 DefaultComboBoxModel aModel = new DefaultComboBoxModel();
@@ -383,6 +416,13 @@ public class GRFrameStudent extends GRFrame {
 
                     // Create fields for assignment
                     JTextField name = new JTextField("Name");
+                    name.addKeyListener(new KeyAdapter() {
+                        public void keyTyped(KeyEvent e) {
+                            if (name.getText().length() >= Main.MAX_STRING_SIZE ) {
+                                e.consume();
+                            }
+                        }
+                    });
 
                     cs.gridx = 0;
                     cs.gridy = 3;
@@ -390,6 +430,13 @@ public class GRFrameStudent extends GRFrame {
                     panel.add(name, cs);
 
                     JTextField points = new JTextField("Total Points");
+                    points.addKeyListener(new KeyAdapter() {
+                        public void keyTyped(KeyEvent e) {
+                            if (points.getText().length() >= Main.MAX_STRING_SIZE ) {
+                                e.consume();
+                            }
+                        }
+                    });
 
                     cs.gridx = 0;
                     cs.gridy = 4;
@@ -411,14 +458,19 @@ public class GRFrameStudent extends GRFrame {
 
                             Connection con = DatabaseConnector.getConnection();
                             String SQL = "INSERT INTO Assignment VALUES (" +
-                                    "(SELECT CategoryID FROM Category WHERE Name = '" + category +
-                                    "' AND ClassID IN (SELECT ClassID FROM Class WHERE Name = '" + array[1] +
-                                    "' AND SectionNumber = " + array[2] + ")), '" + assignmentName +
-                                    "', " + assignmentPoints + ")";
+                                    "(SELECT CategoryID FROM Category WHERE Name = ?" +
+                                    " AND ClassID IN (SELECT ClassID FROM Class WHERE Name = ?" +
+                                    " AND SectionNumber = ?)), ?" +
+                                    ", ?)";
 
                             PreparedStatement pstmt;
                             try {
                                 pstmt = con.prepareStatement(SQL);
+                                pstmt.setString(1, category);
+                                pstmt.setString(2, array[1]);
+                                pstmt.setString(3, array[2]);
+                                pstmt.setString(4, assignmentName);
+                                pstmt.setString(5, assignmentPoints);
                                 pstmt.execute();
                                 pop.dispose();
                             } catch (SQLException exception) {
@@ -463,9 +515,10 @@ public class GRFrameStudent extends GRFrame {
                 try {
                     Connection con = DatabaseConnector.getConnection();
                     String SQL = "SELECT Name, SectionNumber, CourseListing FROM Class " +
-                            "WHERE ClassID IN (SELECT ClassID FROM Enrolled WHERE StudentID = " + Main.userID + ")";
+                            "WHERE ClassID IN (SELECT ClassID FROM Enrolled WHERE StudentID = ?)";
 
                     PreparedStatement pstmt = con.prepareStatement(SQL);
+                    pstmt.setString(1, String.valueOf(Main.userID));
                     ResultSet rs = pstmt.executeQuery();
 
                     DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
@@ -491,10 +544,12 @@ public class GRFrameStudent extends GRFrame {
                             try {
                                 Connection con = DatabaseConnector.getConnection();
                                 String SQL = "SELECT Name FROM Category " +
-                                        "WHERE ClassID IN (SELECT ClassID FROM Class WHERE Name = '" + array[1] +
-                                        "' AND SectionNumber = " + array[2] + ")";
+                                        "WHERE ClassID IN (SELECT ClassID FROM Class WHERE Name = ?" +
+                                        " AND SectionNumber = ?)";
 
                                 PreparedStatement pstmt = con.prepareStatement(SQL);
+                                pstmt.setString(1, array[1]);
+                                pstmt.setString(2, array[2]);
                                 ResultSet rs = pstmt.executeQuery();
 
                                 DefaultComboBoxModel aModel = new DefaultComboBoxModel();
@@ -532,12 +587,15 @@ public class GRFrameStudent extends GRFrame {
                                 Connection con = DatabaseConnector.getConnection();
                                 String SQL = "SELECT Name FROM Assignment " +
                                         "WHERE CategoryID IN (SELECT CategoryID FROM Category WHERE Name = '"
-                                        + item2 + "' AND ClassID IN (SELECT ClassID FROM Class WHERE Name = '" + array[1] +
-                                        "' AND SectionNumber = " + array[2] + ")" 
+                                        + item2 + "' AND ClassID IN (SELECT ClassID FROM Class WHERE Name = ?" +
+                                        " AND SectionNumber = ?)"
                                         + ") AND AssignmentID NOT IN (SELECT AssignmentID FROM Grade "
-                                        + "WHERE StudentID = " + Main.userID + ")";
+                                        + "WHERE StudentID = ?)";
 
                                 PreparedStatement pstmt = con.prepareStatement(SQL);
+                                pstmt.setString(1, array[1]);
+                                pstmt.setString(2, array[2]);
+                                pstmt.setString(3, String.valueOf(Main.userID));
                                 ResultSet rs = pstmt.executeQuery();
 
                                 DefaultComboBoxModel aModel = new DefaultComboBoxModel();
@@ -563,6 +621,13 @@ public class GRFrameStudent extends GRFrame {
 
                     // Create fields for assignment
                     JTextField points = new JTextField("Total Points");
+                    points.addKeyListener(new KeyAdapter() {
+                        public void keyTyped(KeyEvent e) {
+                            if (points.getText().length() >= Main.MAX_STRING_SIZE ) {
+                                e.consume();
+                            }
+                        }
+                    });
 
                     cs.gridx = 0;
                     cs.gridy = 4;
@@ -583,19 +648,24 @@ public class GRFrameStudent extends GRFrame {
                             String[] array = item.split(": ");
 
                             Connection con = DatabaseConnector.getConnection();
-                            String SQL = "INSERT INTO Grade VALUES (" + Main.userID
+                            String SQL = "INSERT INTO Grade VALUES (?"
                                     + ", (SELECT AssignmentID FROM Assignment WHERE " 
-                            		+ "Name = '" + assignmentName + "' AND CategoryID IN "
+                            		+ "Name = ? AND CategoryID IN "
                             		+ "(SELECT CategoryID FROM Category WHERE"
-                            		+ " Name = '"
-                                            + category + "' AND ClassID IN (SELECT ClassID FROM Class " 
-                                            +" WHERE Name = '" + array[1] +
-                                        "' AND SectionNumber = " + array[2] + "))),"
-                            		+ assignmentPoints + ")";
+                            		+ " Name = "
+                                            + "? AND ClassID IN (SELECT ClassID FROM Class "
+                                            +" WHERE Name = ?" +
+                                        " AND SectionNumber = ?))), ?)";
 
                             PreparedStatement pstmt;
                             try {
                                 pstmt = con.prepareStatement(SQL);
+                                pstmt.setString(1, String.valueOf(Main.userID));
+                                pstmt.setString(2, assignmentName);
+                                pstmt.setString(3, category);
+                                pstmt.setString(4, array[1]);
+                                pstmt.setString(5, array[2]);
+                                pstmt.setString(6, assignmentPoints);
                                 pstmt.execute();
                                 pop.dispose();
                             } catch (SQLException exception) {

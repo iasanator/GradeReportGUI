@@ -6,9 +6,13 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class LoginDialog extends JDialog {
 
@@ -38,6 +42,13 @@ public class LoginDialog extends JDialog {
         panel.add(lbUsername, cs);
 
         tfUsername = new JTextField(20);
+        tfUsername.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                if (tfUsername.getText().length() >= Main.MAX_STRING_SIZE ) {
+                    e.consume();
+                }
+            }
+        });
         cs.gridx = 1;
         cs.gridy = 0;
         cs.gridwidth = 2;

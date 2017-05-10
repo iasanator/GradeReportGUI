@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a0b13f74-321a-47ca-bcad-b7ba714445de" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/DatabaseConnector.java" afterPath="$PROJECT_DIR$/src/com/company/DatabaseConnector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/GRFrameTeacher.java" afterPath="$PROJECT_DIR$/src/com/company/GRFrameTeacher.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/GRFrameStudent.java" afterPath="$PROJECT_DIR$/src/com/company/GRFrameStudent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/LoginDialog.java" afterPath="$PROJECT_DIR$/src/com/company/LoginDialog.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Main.java" afterPath="$PROJECT_DIR$/src/com/company/Main.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -23,8 +23,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/company/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+            <state relative-caret-position="204">
+              <caret line="12" column="32" lean-forward="false" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -45,62 +45,89 @@
       <file leaf-file-name="LoginDialog.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/company/LoginDialog.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="954">
-              <caret line="111" column="38" lean-forward="false" selection-start-line="111" selection-start-column="38" selection-end-line="111" selection-end-column="38" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GRFrameStudent.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/company/GRFrameStudent.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="548" column="0" lean-forward="true" selection-start-line="548" selection-start-column="0" selection-end-line="548" selection-end-column="0" />
+            <state relative-caret-position="204">
+              <caret line="43" column="40" lean-forward="true" selection-start-line="43" selection-start-column="40" selection-end-line="50" selection-end-column="11" />
               <folding>
-                <marker date="1494369428677" expanded="true" signature="1439:1610" ph="SELECT Name,... Class" />
-                <marker date="1494369428677" expanded="true" signature="1543:1590" ph="SELECT Class... Enrolled" />
-                <marker date="1494369428677" expanded="true" signature="2862:2987" ph="SELECT @clas... Class" />
-                <marker date="1494369428677" expanded="true" signature="5688:5863" ph="SELECT Name,... Class" />
-                <marker date="1494369428677" expanded="true" signature="5796:5843" ph="SELECT Class... Enrolled" />
-                <marker date="1494369428677" expanded="true" signature="7053:7297" ph="INSERT INTO Enrolled... " />
-                <marker date="1494369428677" expanded="true" signature="7144:7258" ph="SELECT Class... Class" />
-                <marker date="1494369428677" expanded="true" signature="8758:8905" ph="SELECT Name,... Class" />
-                <marker date="1494369428677" expanded="true" signature="8838:8885" ph="SELECT Class... Enrolled" />
-                <marker date="1494369428677" expanded="true" signature="10148:10251" ph="(SELECT Clas... " />
-                <marker date="1494369428677" expanded="true" signature="10149:10234" ph="SELECT Class... Class" />
-                <marker date="1494369428677" expanded="true" signature="10616:10732" ph="INSERT INTO Category... " />
-                <marker date="1494369428677" expanded="true" signature="12034:12205" ph="SELECT Name,... Class" />
-                <marker date="1494369428677" expanded="true" signature="12138:12185" ph="SELECT Class... Enrolled" />
-                <marker date="1494369428677" expanded="true" signature="13390:13614" ph="SELECT Name Category" />
-                <marker date="1494369428677" expanded="true" signature="13479:13597" ph="SELECT Class... Class" />
-                <marker date="1494369428677" expanded="true" signature="15799:16209" ph="INSERT INTO Assignment... " />
-                <marker date="1494369428677" expanded="true" signature="15872:16119" ph="SELECT Categ... Category" />
-                <marker date="1494369428677" expanded="true" signature="15988:16102" ph="SELECT Class... Class" />
-                <marker date="1494369428677" expanded="true" signature="17955:18126" ph="SELECT Name,... Class" />
-                <marker date="1494369428677" expanded="true" signature="18059:18106" ph="SELECT Class... Enrolled" />
-                <marker date="1494369428677" expanded="true" signature="19311:19535" ph="SELECT Name Category" />
-                <marker date="1494369428677" expanded="true" signature="19400:19518" ph="SELECT Class... Class" />
-                <marker date="1494369428677" expanded="true" signature="21111:21644" ph="SELECT Name Assignment" />
-                <marker date="1494369428677" expanded="true" signature="21205:21457" ph="SELECT Categ... Category" />
-                <marker date="1494369428677" expanded="true" signature="21322:21440" ph="SELECT Class... Class" />
-                <marker date="1494369428677" expanded="true" signature="21530:21624" ph="SELECT Assig... Grade" />
-                <marker date="1494369428677" expanded="true" signature="23642:24292" ph="INSERT INTO Grade... " />
-                <marker date="1494369428677" expanded="true" signature="23726:24235" ph="SELECT Assig... Assignment" />
-                <marker date="1494369428677" expanded="true" signature="23890:24234" ph="SELECT Categ... Category" />
-                <marker date="1494369428677" expanded="true" signature="24049:24217" ph="SELECT Class... Class" />
+                <element signature="e#1267#1485#0" expanded="true" />
+                <element signature="e#1484#1485#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GRFrameTeacher.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GRFrameStudent.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/company/GRFrameStudent.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4007">
+              <caret line="437" column="25" lean-forward="true" selection-start-line="437" selection-start-column="25" selection-end-line="437" selection-end-column="25" />
+              <folding>
+                <element signature="e#10071#10359#0" expanded="true" />
+                <element signature="e#10358#10359#0" expanded="true" />
+                <element signature="e#10528#10818#0" expanded="true" />
+                <element signature="e#10817#10818#0" expanded="true" />
+                <element signature="e#16211#16495#0" expanded="true" />
+                <element signature="e#16494#16495#0" expanded="true" />
+                <element signature="e#16761#17047#0" expanded="true" />
+                <element signature="e#25462#25748#0" expanded="true" />
+                <element signature="e#25747#25748#0" expanded="true" />
+                <marker date="1494378330782" expanded="true" signature="1505:1658" ph="SELECT Name,... Class" />
+                <marker date="1494378330782" expanded="true" signature="1609:1656" ph="SELECT Class... Enrolled" />
+                <marker date="1494378330782" expanded="true" signature="1609:1657" ph="SELECT Class... Enrolled" />
+                <marker date="1494378330782" expanded="true" signature="2979:3092" ph="SELECT @clas... Class" />
+                <marker date="1494378330782" expanded="true" signature="2979:3093" ph="SELECT @clas... Class" />
+                <marker date="1494378330782" expanded="true" signature="6021:6178" ph="SELECT Name,... Class" />
+                <marker date="1494378330782" expanded="true" signature="6129:6176" ph="SELECT Class... Enrolled" />
+                <marker date="1494378330782" expanded="true" signature="6129:6177" ph="SELECT Class... Enrolled" />
+                <marker date="1494378330782" expanded="true" signature="7437:7636" ph="INSERT INTO Enrolled... " />
+                <marker date="1494378330782" expanded="true" signature="7528:7630" ph="SELECT Class... Class" />
+                <marker date="1494378330782" expanded="true" signature="7528:7631" ph="SELECT Class... Class" />
+                <marker date="1494378330782" expanded="true" signature="9302:9429" ph="SELECT Name,... Class" />
+                <marker date="1494378330782" expanded="true" signature="9302:9431" ph="SELECT Name,... Class" />
+                <marker date="1494378330782" expanded="true" signature="9382:9429" ph="SELECT Class... Enrolled" />
+                <marker date="1494378330782" expanded="true" signature="11401:11476" ph="(SELECT Clas... " />
+                <marker date="1494378330782" expanded="true" signature="11402:11474" ph="SELECT Class... Class" />
+                <marker date="1494378330782" expanded="true" signature="11402:11475" ph="SELECT Class... Class" />
+                <marker date="1494378330782" expanded="true" signature="11402:11476" ph="SELECT Class... Class" />
+                <marker date="1494378330782" expanded="true" signature="11915:11968" ph="INSERT INTO Category... " />
+                <marker date="1494378330782" expanded="true" signature="11915:11976" ph="INSERT INTO Category... " />
+                <marker date="1494378330782" expanded="true" signature="13423:13576" ph="SELECT Name,... Class" />
+                <marker date="1494378330782" expanded="true" signature="13527:13574" ph="SELECT Class... Enrolled" />
+                <marker date="1494378330782" expanded="true" signature="13527:13575" ph="SELECT Class... Enrolled" />
+                <marker date="1494378330782" expanded="true" signature="14830:15027" ph="SELECT Name Category" />
+                <marker date="1494378330782" expanded="true" signature="14919:15025" ph="SELECT Class... Class" />
+                <marker date="1494378330782" expanded="true" signature="14919:15026" ph="SELECT Class... Class" />
+                <marker date="1494378330782" expanded="true" signature="17994:18324" ph="INSERT INTO Assignment... " />
+                <marker date="1494378330782" expanded="true" signature="18067:18275" ph="SELECT Categ... Category" />
+                <marker date="1494378330782" expanded="true" signature="18171:18273" ph="SELECT Class... Class" />
+                <marker date="1494378330782" expanded="true" signature="18171:18274" ph="SELECT Class... Class" />
+                <marker date="1494378330782" expanded="true" signature="20394:20547" ph="SELECT Name,... Class" />
+                <marker date="1494378330782" expanded="true" signature="20498:20545" ph="SELECT Class... Enrolled" />
+                <marker date="1494378330782" expanded="true" signature="20498:20546" ph="SELECT Class... Enrolled" />
+                <marker date="1494378330782" expanded="true" signature="21801:21998" ph="SELECT Name Category" />
+                <marker date="1494378330782" expanded="true" signature="21890:21996" ph="SELECT Class... Class" />
+                <marker date="1494378330782" expanded="true" signature="21890:21997" ph="SELECT Class... Class" />
+                <marker date="1494378330782" expanded="true" signature="23698:24185" ph="SELECT Name Assignment" />
+                <marker date="1494378330782" expanded="true" signature="23792:24017" ph="SELECT Categ... Category" />
+                <marker date="1494378330782" expanded="true" signature="23909:24015" ph="SELECT Class... Class" />
+                <marker date="1494378330782" expanded="true" signature="23909:24016" ph="SELECT Class... Class" />
+                <marker date="1494378330782" expanded="true" signature="24089:24183" ph="SELECT Assig... Grade" />
+                <marker date="1494378330782" expanded="true" signature="24089:24184" ph="SELECT Assig... Grade" />
+                <marker date="1494378330782" expanded="true" signature="26719:27241" ph="INSERT INTO Grade... " />
+                <marker date="1494378330782" expanded="true" signature="26790:27236" ph="SELECT Assig... Assignment" />
+                <marker date="1494378330782" expanded="true" signature="26931:27235" ph="SELECT Categ... Category" />
+                <marker date="1494378330782" expanded="true" signature="27078:27233" ph="SELECT Class... Class" />
+                <marker date="1494378330782" expanded="true" signature="27078:27234" ph="SELECT Class... Class" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GRFrameTeacher.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/company/GRFrameTeacher.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1207">
-              <caret line="71" column="56" lean-forward="true" selection-start-line="71" selection-start-column="56" selection-end-line="71" selection-end-column="56" />
+            <state relative-caret-position="85">
+              <caret line="5" column="34" lean-forward="true" selection-start-line="5" selection-start-column="34" selection-end-line="5" selection-end-column="34" />
               <folding>
-                <element signature="imports" expanded="true" />
                 <marker date="1494372025862" expanded="true" signature="1996:2164" ph="SELECT Name,... Class" />
                 <marker date="1494372025862" expanded="true" signature="2100:2144" ph="SELECT Class... Enrolled" />
                 <marker date="1494372025862" expanded="true" signature="3423:3446" ph="SELECT @inpu... " />
@@ -166,13 +193,13 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/com/company/LoginPanel.java" />
-        <option value="$PROJECT_DIR$/src/com/company/Main.java" />
         <option value="$PROJECT_DIR$/src/com/company/GRFrame.java" />
-        <option value="$PROJECT_DIR$/src/com/company/LoginDialog.java" />
-        <option value="$PROJECT_DIR$/src/com/company/GRFrameStudent.java" />
         <option value="$PROJECT_DIR$/src/com/company/GRFrameTeacher.java" />
         <option value="$PROJECT_DIR$/src/com/company/SQLTextField.java" />
         <option value="$PROJECT_DIR$/src/com/company/DatabaseConnector.java" />
+        <option value="$PROJECT_DIR$/src/com/company/Main.java" />
+        <option value="$PROJECT_DIR$/src/com/company/LoginDialog.java" />
+        <option value="$PROJECT_DIR$/src/com/company/GRFrameStudent.java" />
       </list>
     </option>
   </component>
@@ -664,12 +691,12 @@
       <workItem from="1493867341830" duration="3379000" />
       <workItem from="1493943554394" duration="3822000" />
       <workItem from="1493958034340" duration="68000" />
-      <workItem from="1494369489615" duration="3900000" />
+      <workItem from="1494369489615" duration="6955000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21597000" />
+    <option name="totallyTimeSpent" value="24652000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
@@ -743,7 +770,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#1267#1485#0" expanded="true" />
+            <element signature="e#1484#1485#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -780,7 +810,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1377">
           <caret line="86" column="26" lean-forward="false" selection-start-line="86" selection-start-column="26" selection-end-line="86" selection-end-column="26" />
-          <folding />
+          <folding>
+            <element signature="e#1267#1485#0" expanded="true" />
+            <element signature="e#1484#1485#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -818,7 +851,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#1267#1485#0" expanded="true" />
+            <element signature="e#1484#1485#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -856,7 +892,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#1267#1485#0" expanded="true" />
+            <element signature="e#1484#1485#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -893,7 +932,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-272">
           <caret line="95" column="40" lean-forward="false" selection-start-line="95" selection-start-column="40" selection-end-line="95" selection-end-column="40" />
-          <folding />
+          <folding>
+            <element signature="e#1267#1485#0" expanded="true" />
+            <element signature="e#1484#1485#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -938,7 +980,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#1267#1485#0" expanded="true" />
+            <element signature="e#1484#1485#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -975,7 +1020,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1377">
           <caret line="86" column="26" lean-forward="false" selection-start-line="86" selection-start-column="26" selection-end-line="86" selection-end-column="26" />
-          <folding />
+          <folding>
+            <element signature="e#1267#1485#0" expanded="true" />
+            <element signature="e#1484#1485#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1013,7 +1061,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#1267#1485#0" expanded="true" />
+            <element signature="e#1484#1485#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1051,7 +1102,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#1267#1485#0" expanded="true" />
+            <element signature="e#1484#1485#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1074,77 +1128,11 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/LoginPanel.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/company/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/GRFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/SQLTextField.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="8" lean-forward="true" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/LoginDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="954">
-          <caret line="111" column="38" lean-forward="false" selection-start-line="111" selection-start-column="38" selection-end-line="111" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/GRFrameStudent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="548" column="0" lean-forward="true" selection-start-line="548" selection-start-column="0" selection-end-line="548" selection-end-column="0" />
-          <folding>
-            <marker date="1494369428677" expanded="true" signature="1439:1610" ph="SELECT Name,... Class" />
-            <marker date="1494369428677" expanded="true" signature="1543:1590" ph="SELECT Class... Enrolled" />
-            <marker date="1494369428677" expanded="true" signature="2862:2987" ph="SELECT @clas... Class" />
-            <marker date="1494369428677" expanded="true" signature="5688:5863" ph="SELECT Name,... Class" />
-            <marker date="1494369428677" expanded="true" signature="5796:5843" ph="SELECT Class... Enrolled" />
-            <marker date="1494369428677" expanded="true" signature="7053:7297" ph="INSERT INTO Enrolled... " />
-            <marker date="1494369428677" expanded="true" signature="7144:7258" ph="SELECT Class... Class" />
-            <marker date="1494369428677" expanded="true" signature="8758:8905" ph="SELECT Name,... Class" />
-            <marker date="1494369428677" expanded="true" signature="8838:8885" ph="SELECT Class... Enrolled" />
-            <marker date="1494369428677" expanded="true" signature="10148:10251" ph="(SELECT Clas... " />
-            <marker date="1494369428677" expanded="true" signature="10149:10234" ph="SELECT Class... Class" />
-            <marker date="1494369428677" expanded="true" signature="10616:10732" ph="INSERT INTO Category... " />
-            <marker date="1494369428677" expanded="true" signature="12034:12205" ph="SELECT Name,... Class" />
-            <marker date="1494369428677" expanded="true" signature="12138:12185" ph="SELECT Class... Enrolled" />
-            <marker date="1494369428677" expanded="true" signature="13390:13614" ph="SELECT Name Category" />
-            <marker date="1494369428677" expanded="true" signature="13479:13597" ph="SELECT Class... Class" />
-            <marker date="1494369428677" expanded="true" signature="15799:16209" ph="INSERT INTO Assignment... " />
-            <marker date="1494369428677" expanded="true" signature="15872:16119" ph="SELECT Categ... Category" />
-            <marker date="1494369428677" expanded="true" signature="15988:16102" ph="SELECT Class... Class" />
-            <marker date="1494369428677" expanded="true" signature="17955:18126" ph="SELECT Name,... Class" />
-            <marker date="1494369428677" expanded="true" signature="18059:18106" ph="SELECT Class... Enrolled" />
-            <marker date="1494369428677" expanded="true" signature="19311:19535" ph="SELECT Name Category" />
-            <marker date="1494369428677" expanded="true" signature="19400:19518" ph="SELECT Class... Class" />
-            <marker date="1494369428677" expanded="true" signature="21111:21644" ph="SELECT Name Assignment" />
-            <marker date="1494369428677" expanded="true" signature="21205:21457" ph="SELECT Categ... Category" />
-            <marker date="1494369428677" expanded="true" signature="21322:21440" ph="SELECT Class... Class" />
-            <marker date="1494369428677" expanded="true" signature="21530:21624" ph="SELECT Assig... Grade" />
-            <marker date="1494369428677" expanded="true" signature="23642:24292" ph="INSERT INTO Grade... " />
-            <marker date="1494369428677" expanded="true" signature="23726:24235" ph="SELECT Assig... Assignment" />
-            <marker date="1494369428677" expanded="true" signature="23890:24234" ph="SELECT Categ... Category" />
-            <marker date="1494369428677" expanded="true" signature="24049:24217" ph="SELECT Class... Class" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1161,10 +1149,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/GRFrameTeacher.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1207">
-          <caret line="71" column="56" lean-forward="true" selection-start-line="71" selection-start-column="56" selection-end-line="71" selection-end-column="56" />
+        <state relative-caret-position="85">
+          <caret line="5" column="34" lean-forward="true" selection-start-line="5" selection-start-column="34" selection-end-line="5" selection-end-column="34" />
           <folding>
-            <element signature="imports" expanded="true" />
             <marker date="1494372025862" expanded="true" signature="1996:2164" ph="SELECT Name,... Class" />
             <marker date="1494372025862" expanded="true" signature="2100:2144" ph="SELECT Class... Enrolled" />
             <marker date="1494372025862" expanded="true" signature="3423:3446" ph="SELECT @inpu... " />
@@ -1183,6 +1170,100 @@
             <marker date="1494372025862" expanded="true" signature="12304:12714" ph="INSERT INTO Assignment... " />
             <marker date="1494372025862" expanded="true" signature="12377:12624" ph="SELECT Categ... Category" />
             <marker date="1494372025862" expanded="true" signature="12493:12607" ph="SELECT Class... Class" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/company/GRFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/company/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="32" lean-forward="false" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/company/LoginDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="43" column="40" lean-forward="true" selection-start-line="43" selection-start-column="40" selection-end-line="50" selection-end-column="11" />
+          <folding>
+            <element signature="e#1267#1485#0" expanded="true" />
+            <element signature="e#1484#1485#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/company/GRFrameStudent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4007">
+          <caret line="437" column="25" lean-forward="true" selection-start-line="437" selection-start-column="25" selection-end-line="437" selection-end-column="25" />
+          <folding>
+            <element signature="e#10071#10359#0" expanded="true" />
+            <element signature="e#10358#10359#0" expanded="true" />
+            <element signature="e#10528#10818#0" expanded="true" />
+            <element signature="e#10817#10818#0" expanded="true" />
+            <element signature="e#16211#16495#0" expanded="true" />
+            <element signature="e#16494#16495#0" expanded="true" />
+            <element signature="e#16761#17047#0" expanded="true" />
+            <element signature="e#25462#25748#0" expanded="true" />
+            <element signature="e#25747#25748#0" expanded="true" />
+            <marker date="1494378330782" expanded="true" signature="1505:1658" ph="SELECT Name,... Class" />
+            <marker date="1494378330782" expanded="true" signature="1609:1656" ph="SELECT Class... Enrolled" />
+            <marker date="1494378330782" expanded="true" signature="1609:1657" ph="SELECT Class... Enrolled" />
+            <marker date="1494378330782" expanded="true" signature="2979:3092" ph="SELECT @clas... Class" />
+            <marker date="1494378330782" expanded="true" signature="2979:3093" ph="SELECT @clas... Class" />
+            <marker date="1494378330782" expanded="true" signature="6021:6178" ph="SELECT Name,... Class" />
+            <marker date="1494378330782" expanded="true" signature="6129:6176" ph="SELECT Class... Enrolled" />
+            <marker date="1494378330782" expanded="true" signature="6129:6177" ph="SELECT Class... Enrolled" />
+            <marker date="1494378330782" expanded="true" signature="7437:7636" ph="INSERT INTO Enrolled... " />
+            <marker date="1494378330782" expanded="true" signature="7528:7630" ph="SELECT Class... Class" />
+            <marker date="1494378330782" expanded="true" signature="7528:7631" ph="SELECT Class... Class" />
+            <marker date="1494378330782" expanded="true" signature="9302:9429" ph="SELECT Name,... Class" />
+            <marker date="1494378330782" expanded="true" signature="9302:9431" ph="SELECT Name,... Class" />
+            <marker date="1494378330782" expanded="true" signature="9382:9429" ph="SELECT Class... Enrolled" />
+            <marker date="1494378330782" expanded="true" signature="11401:11476" ph="(SELECT Clas... " />
+            <marker date="1494378330782" expanded="true" signature="11402:11474" ph="SELECT Class... Class" />
+            <marker date="1494378330782" expanded="true" signature="11402:11475" ph="SELECT Class... Class" />
+            <marker date="1494378330782" expanded="true" signature="11402:11476" ph="SELECT Class... Class" />
+            <marker date="1494378330782" expanded="true" signature="11915:11968" ph="INSERT INTO Category... " />
+            <marker date="1494378330782" expanded="true" signature="11915:11976" ph="INSERT INTO Category... " />
+            <marker date="1494378330782" expanded="true" signature="13423:13576" ph="SELECT Name,... Class" />
+            <marker date="1494378330782" expanded="true" signature="13527:13574" ph="SELECT Class... Enrolled" />
+            <marker date="1494378330782" expanded="true" signature="13527:13575" ph="SELECT Class... Enrolled" />
+            <marker date="1494378330782" expanded="true" signature="14830:15027" ph="SELECT Name Category" />
+            <marker date="1494378330782" expanded="true" signature="14919:15025" ph="SELECT Class... Class" />
+            <marker date="1494378330782" expanded="true" signature="14919:15026" ph="SELECT Class... Class" />
+            <marker date="1494378330782" expanded="true" signature="17994:18324" ph="INSERT INTO Assignment... " />
+            <marker date="1494378330782" expanded="true" signature="18067:18275" ph="SELECT Categ... Category" />
+            <marker date="1494378330782" expanded="true" signature="18171:18273" ph="SELECT Class... Class" />
+            <marker date="1494378330782" expanded="true" signature="18171:18274" ph="SELECT Class... Class" />
+            <marker date="1494378330782" expanded="true" signature="20394:20547" ph="SELECT Name,... Class" />
+            <marker date="1494378330782" expanded="true" signature="20498:20545" ph="SELECT Class... Enrolled" />
+            <marker date="1494378330782" expanded="true" signature="20498:20546" ph="SELECT Class... Enrolled" />
+            <marker date="1494378330782" expanded="true" signature="21801:21998" ph="SELECT Name Category" />
+            <marker date="1494378330782" expanded="true" signature="21890:21996" ph="SELECT Class... Class" />
+            <marker date="1494378330782" expanded="true" signature="21890:21997" ph="SELECT Class... Class" />
+            <marker date="1494378330782" expanded="true" signature="23698:24185" ph="SELECT Name Assignment" />
+            <marker date="1494378330782" expanded="true" signature="23792:24017" ph="SELECT Categ... Category" />
+            <marker date="1494378330782" expanded="true" signature="23909:24015" ph="SELECT Class... Class" />
+            <marker date="1494378330782" expanded="true" signature="23909:24016" ph="SELECT Class... Class" />
+            <marker date="1494378330782" expanded="true" signature="24089:24183" ph="SELECT Assig... Grade" />
+            <marker date="1494378330782" expanded="true" signature="24089:24184" ph="SELECT Assig... Grade" />
+            <marker date="1494378330782" expanded="true" signature="26719:27241" ph="INSERT INTO Grade... " />
+            <marker date="1494378330782" expanded="true" signature="26790:27236" ph="SELECT Assig... Assignment" />
+            <marker date="1494378330782" expanded="true" signature="26931:27235" ph="SELECT Categ... Category" />
+            <marker date="1494378330782" expanded="true" signature="27078:27233" ph="SELECT Class... Class" />
+            <marker date="1494378330782" expanded="true" signature="27078:27234" ph="SELECT Class... Class" />
           </folding>
         </state>
       </provider>

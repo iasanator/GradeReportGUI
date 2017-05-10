@@ -12,6 +12,8 @@ public class Main {
 
     public static GRFrame frame;
 
+    public static final int MAX_STRING_SIZE = 32;
+
     public static void main(String[] args) {
 
         Main.dbConnector = new DatabaseConnector();
