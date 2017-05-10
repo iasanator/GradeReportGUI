@@ -64,12 +64,14 @@ public class DatabaseConnector {
         try {
             String SQL = "DECLARE @validated INT;" +
                     "EXEC LoginCheck" + modifier + " " +
-                    "@Username = " + username + ", " +
-                    "@HashPass = \'" + hash(password) + "\', " +
+                    "@Username = ?, " +
+                    "@HashPass = ?, " +
                     "@result = @validated OUTPUT;" +
                     "SELECT Validated = @validated;";
 
             PreparedStatement pstmt = con.prepareStatement(SQL);
+            pstmt.setString(1, username);
+            pstmt.setString(2, hash(password));
             ResultSet rs = pstmt.executeQuery();
             rs.next();
 
