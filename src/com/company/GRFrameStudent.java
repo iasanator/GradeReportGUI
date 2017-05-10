@@ -175,7 +175,7 @@ public class GRFrameStudent extends GRFrame {
                     while(rs.next()) {
                         comboBoxModel.addElement(rs.getString("CourseListing") + ": " + rs.getString("Name") + ": " + rs.getString("SectionNumber"));
                     }
-
+                    comboBox.setSelectedItem(null);
                     pop.getContentPane().add(comboBox, BorderLayout.CENTER);
 
                     JButton select = new JButton("Select");
@@ -246,6 +246,7 @@ public class GRFrameStudent extends GRFrame {
 				
 				DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
 				comboBox.setModel(comboBoxModel);
+				comboBox.setSelectedItem(null);
 				
 				while(rs.next()) {
 					comboBoxModel.addElement(rs.getString("CourseListing") + ": " + rs.getString("Name") + ": " + rs.getString("SectionNumber"));
@@ -364,10 +365,11 @@ public class GRFrameStudent extends GRFrame {
 
                     DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
                     comboBox.setModel(comboBoxModel);
+                    
                     while(rs.next()) {
                         comboBoxModel.addElement(rs.getString("CourseListing") + ": " + rs.getString("Name") + ": " + rs.getString("SectionNumber"));
                     }
-
+                    comboBox.setSelectedItem(null);
                     cs.gridx = 0;
                     cs.gridy = 0;
                     cs.gridwidth = 1;
@@ -526,7 +528,7 @@ public class GRFrameStudent extends GRFrame {
                     while(rs.next()) {
                         comboBoxModel.addElement(rs.getString("CourseListing") + ": " + rs.getString("Name") + ": " + rs.getString("SectionNumber"));
                     }
-
+                    comboBox.setSelectedItem(null);
                     cs.gridx = 0;
                     cs.gridy = 0;
                     cs.gridwidth = 1;
