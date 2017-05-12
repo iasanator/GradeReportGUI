@@ -441,7 +441,7 @@ public class GRFrameTeacher extends GRFrame {
 				try {
 				Connection con = DatabaseConnector.getConnection();
 				String SQL = "SELECT Name, SectionNumber, CourseListing FROM Class " +
-				"WHERE ClassID IN (SELECT ClassID FROM Enrolled WHERE StudentID = ?)";
+				"WHERE TeacherID = ?";
 				
 				PreparedStatement pstmt = con.prepareStatement(SQL);
 				pstmt.setString(1, String.valueOf(Main.userID));
