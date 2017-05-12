@@ -376,7 +376,7 @@ public class GRFrameStudent extends GRFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				final JFrame pop = new JFrame("Select Class");
+				final JFrame pop = new JFrame("Create category");
 				JPanel panel = new JPanel(new GridBagLayout());
 				
 				final JComboBox comboBox = new JComboBox();
@@ -436,6 +436,13 @@ public class GRFrameStudent extends GRFrame {
 						float catWeight;
 						int classID;
 						String item = comboBox.getSelectedItem().toString();
+
+                        try {
+                            Integer.parseInt(weightText.getText());
+                        } catch (Exception e){
+                            weightText.setBackground(Color.RED);
+                            return;
+                        }
 						
 						String[] array = item.split(": ");
 						//System.out.println(array[1]);
@@ -605,6 +612,14 @@ public class GRFrameStudent extends GRFrame {
                             String assignmentPoints = points.getText();
                             String item = comboBox.getSelectedItem().toString();
 
+
+                            try {
+                                Integer.parseInt(points.getText());
+                            } catch (Exception e){
+                                points.setBackground(Color.RED);
+                                return;
+                            }
+
                             String[] array = item.split(": ");
 
                             Connection con = DatabaseConnector.getConnection();
@@ -652,7 +667,7 @@ public class GRFrameStudent extends GRFrame {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                JFrame pop = new JFrame("Add grade");
+                JFrame pop = new JFrame("Create grade");
 
                 JPanel panel = new JPanel(new GridBagLayout());
                 GridBagConstraints cs = new GridBagConstraints();
@@ -795,6 +810,14 @@ public class GRFrameStudent extends GRFrame {
                             String assignmentName = comboBox3.getSelectedItem().toString();
                             String assignmentPoints = points.getText();
                             String item = comboBox.getSelectedItem().toString();
+
+
+                            try {
+                                Integer.parseInt(points.getText());
+                            } catch (Exception e){
+                                points.setBackground(Color.RED);
+                                return;
+                            }
 
                             String[] array = item.split(": ");
 
