@@ -980,6 +980,10 @@ public class GRFrameTeacher extends GRFrame {
         
         menu.add(menuItem);
 
+        UpdateMenu updateMenu = new UpdateMenu(false);
+        menuBar.add(updateMenu.getMenu());
+
+
         this.setJMenuBar(menuBar);
     }
 }

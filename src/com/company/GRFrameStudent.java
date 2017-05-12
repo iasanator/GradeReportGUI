@@ -877,6 +877,9 @@ public class GRFrameStudent extends GRFrame {
 
         this.setJMenuBar(menuBar);
 
+        UpdateMenu updateMenu = new UpdateMenu(true);
+        menuBar.add(updateMenu.getMenu());
+
     }
 
 }
