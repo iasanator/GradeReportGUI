@@ -144,6 +144,134 @@ public class GRFrameTeacher extends GRFrame {
             }});
 
         menu.add(menuItem);
+        
+        menuItem = new JMenuItem("View Student");
+        menuItem.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                JFrame pop = new JFrame("Select Class");
+                
+                JPanel panel = new JPanel(new GridBagLayout());
+                GridBagConstraints cs = new GridBagConstraints();
+                
+                cs.fill = GridBagConstraints.HORIZONTAL;
+
+                JComboBox comboBox = new JComboBox();
+                JComboBox comboBox2 = new JComboBox();
+
+                try {
+                    Connection con = DatabaseConnector.getConnection();
+                    String SQL = "SELECT Name, SectionNumber, CourseListing FROM Class " +
+                            "WHERE ClassID IN (SELECT ClassID FROM Class WHERE TeacherID = ?)";
+
+                    PreparedStatement pstmt = con.prepareStatement(SQL);
+                    pstmt.setString(1, String.valueOf(Main.userID));
+                    ResultSet rs = pstmt.executeQuery();
+
+                    DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
+                    comboBox.setModel(comboBoxModel);
+
+                    while(rs.next()) {
+                        comboBoxModel.addElement(rs.getString("CourseListing") + ": " + rs.getString("Name") + ": " + rs.getString("SectionNumber"));
+                    }
+                    comboBox.setSelectedItem(null);
+                    
+                    cs.gridx = 0;
+                   	cs.gridy=0;
+                   	cs.gridwidth = 1;
+                   	panel.add(comboBox, cs);
+                   	
+                   	comboBox.addActionListener(new ActionListener() {
+
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							String item = comboBox.getSelectedItem().toString();
+							
+							String[] array = item.split(": ");
+							
+							try {
+								Connection con = DatabaseConnector.getConnection();
+								String SQL = "SELECT Username, Name FROM Student WHERE StudentID IN "
+										+ "(SELECT StudentID FROM Enrolled WHERE ClassID IN "
+										+ "(SELECT ClassID FROM Class WHERE Name = ? AND SectionNumber = ?))";
+
+								PreparedStatement pstmt = con.prepareStatement(SQL);
+								pstmt.setString(1, array[1]);
+								pstmt.setString(2, array[2]);
+								ResultSet rs = pstmt.executeQuery();
+
+								DefaultComboBoxModel aModel = new DefaultComboBoxModel();
+								comboBox2.setModel(aModel);
+
+								while(rs.next()) {
+									aModel.addElement(rs.getString("Username") + ": " + rs.getString("Name"));
+								}
+							} catch (SQLException exception) {
+								exception.printStackTrace();
+							}
+						}});
+                   	
+                   	cs.gridx = 0;
+                   	cs.gridy = 1;
+                   	cs.gridwidth = 1;
+                   	panel.add(comboBox2, cs);
+                   
+                    JButton select = new JButton("Select");
+                    select.addActionListener(new ActionListener() {
+
+                        @Override
+                        public void actionPerformed(ActionEvent arg0) {
+                            // TODO Auto-generated method stub.
+                            String item = comboBox.getSelectedItem().toString();
+                            String item2 = comboBox2.getSelectedItem().toString();
+
+                            String[] array = item.split(": ");
+                            String[] student = item2.split(": ");
+
+                            Connection con = DatabaseConnector.getConnection();
+                            String SQL = "DECLARE @classID INT;"
+                            		+ "DECLARE @studentID INT; " +
+                                            "SELECT @classID = classID FROM Class WHERE Name = ?"+
+                                            " AND SectionNumber = ?;"
+                                            + "SELECT @studentID = studentID FROM Student WHERE Username = ?"
+                                            + " AND Name = ?;" +
+                                            "EXEC studentAssignments @studentID, @classID";
+
+                            PreparedStatement pstmt;
+                            try {
+                                pstmt = con.prepareStatement(SQL);
+                                pstmt.setString(1, array[1]);
+                                pstmt.setString(2, array[2]);
+                                pstmt.setString(3, student[0]);
+                                pstmt.setString(4, student[1]);
+                                ResultSet rs = pstmt.executeQuery();
+                                getContentPane().removeAll();
+                                makeTable(rs);
+                                pstmt.close();
+                                pop.dispose();
+                            } catch (SQLException exception) {
+                                // TODO Auto-generated catch-block stub.
+                                exception.printStackTrace();
+                            }
+                        }
+
+                    });
+
+                    cs.gridx = 0;
+                    cs.gridy = 2;
+                    cs.gridwidth = 1;
+                    panel.add(select, cs);
+                    pop.add(panel);
+                    pop.pack();
+                    pop.setVisible(true);
+                } catch (SQLException exception) {
+                    // TODO Auto-generated catch-block stub.
+                    exception.printStackTrace();
+                }
+            }});
+
+        menu.add(menuItem);
         menu.addSeparator();
 
         menuItem = new JMenuItem("Exit");
