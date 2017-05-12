@@ -304,27 +304,75 @@ public class GRFrameTeacher extends GRFrame {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 JFrame pop = new JFrame("Add class");
+                
+                JPanel panel = new JPanel(new GridBagLayout());
+                GridBagConstraints cs = new GridBagConstraints();
+                
+                cs.fill = GridBagConstraints.HORIZONTAL;
 
                 JComboBox comboBox = new JComboBox();
+                JComboBox comboBox2 = new JComboBox();
 
                 try {
                     Connection con = DatabaseConnector.getConnection();
-                    String SQL = "SELECT Name, SectionNumber, CourseListing FROM Class " +
-                            "WHERE NOT ClassID IN (SELECT ClassID FROM Enrolled WHERE StudentID = ?";
-
+                    String SQL = "SELECT Username, Name FROM Student";
+                    
                     PreparedStatement pstmt = con.prepareStatement(SQL);
-                    pstmt.setString(1, String.valueOf(Main.userID));
                     ResultSet rs = pstmt.executeQuery();
 
                     DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
                     comboBox.setModel(comboBoxModel);
 
                     while(rs.next()) {
-                        comboBoxModel.addElement(rs.getString("CourseListing") + ": " + rs.getString("Name") + ": " + rs.getString("SectionNumber"));
+                        comboBoxModel.addElement(rs.getString("Username") + ": " + rs.getString("Name"));
                     }
                     comboBox.setSelectedItem(null);
+                    cs.gridx = 0;
+                    cs.gridy = 0;
+                    cs.gridwidth = 1;
+                    panel.add(comboBox, cs);
+                    
+                    comboBox.addActionListener(new ActionListener () {
 
-                    pop.getContentPane().add(comboBox, BorderLayout.CENTER);
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							// TODO Auto-generated method stub.
+							String item = comboBox.getSelectedItem().toString();
+							
+							String[] array = item.split(": ");
+							
+							 String SQL = "SELECT Name, SectionNumber, CourseListing FROM Class " +
+		                            "WHERE NOT ClassID IN (SELECT ClassID FROM Enrolled WHERE StudentID IN"
+		                            + "(SELECT StudentID FROM Student WHERE Username = ? "
+		                            + "AND Name = ?))";
+							 
+							 try {
+								PreparedStatement pstmt = con.prepareStatement(SQL);
+							 	pstmt.setString(1, array[0]);
+								pstmt.setString(2, array[1]);
+								ResultSet rs = pstmt.executeQuery();
+							 
+								DefaultComboBoxModel aModel = new DefaultComboBoxModel();
+								comboBox2.setModel(aModel);
+								
+								while(rs.next()) {
+									aModel.addElement(rs.getString("CourseListing") + ": " + rs.getString("Name") + ": " + rs.getString("SectionNumber"));
+								}
+								
+							 } catch (SQLException exception) {
+								// TODO Auto-generated catch-block stub.
+								exception.printStackTrace();
+							}
+							 
+							
+						}
+                    	
+                    });
+                    
+                    cs.gridx = 0;
+                    cs.gridy = 1;
+                    cs.gridwidth = 1;
+                    panel.add(comboBox2, cs);
 
                     JButton select = new JButton("Select");
                     select.addActionListener(new ActionListener() {
@@ -332,22 +380,26 @@ public class GRFrameTeacher extends GRFrame {
                         @Override
                         public void actionPerformed(ActionEvent arg0) {
                             // TODO Auto-generated method stub.
-                            String item = comboBox.getSelectedItem().toString();
-
+                            String student = comboBox.getSelectedItem().toString();
+                            String item = comboBox2.getSelectedItem().toString();
+                            
                             String[] array = item.split(": ");
-                            System.out.println(array[1]);
+                            String[] array1 = student.split(": ");
+                            //System.out.println(array[1]);
 
                             Connection con = DatabaseConnector.getConnection();
                             String SQL = "INSERT INTO Enrolled(ClassID, StudentID) VALUES (" +
                                     "(SELECT ClassID FROM Class WHERE Name = ?" +
-                                    " AND SectionNumber = ?), ?)";
+                                    " AND SectionNumber = ?), (SELECT StudentID FROM Student WHERE Username = ? "
+		                            + "AND Name = ?))";
 
                             PreparedStatement pstmt;
                             try {
                                 pstmt = con.prepareStatement(SQL);
                                 pstmt.setString(1, array[1]);
                                 pstmt.setString(2, array[2]);
-                                pstmt.setString(3, String.valueOf(Main.userID));
+                                pstmt.setString(3, array1[0]);
+                                pstmt.setString(4, array1[1]);
                                 pstmt.execute();
                                 pop.dispose();
                             } catch (SQLException exception) {
@@ -358,8 +410,11 @@ public class GRFrameTeacher extends GRFrame {
 
                     });
 
-
-                    pop.getContentPane().add(select, BorderLayout.PAGE_END);
+                    cs.gridx = 0;
+                    cs.gridy = 2;
+                    cs.gridwidth = 1;
+                    panel.add(select, cs);
+                    pop.add(panel);
                     pop.pack();
                     pop.setVisible(true);
                 } catch (SQLException exception) {
