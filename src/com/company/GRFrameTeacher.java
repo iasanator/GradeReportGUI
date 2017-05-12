@@ -143,6 +143,18 @@ public class GRFrameTeacher extends GRFrame {
             }});
 
         menu.add(menuItem);
+        menu.addSeparator();
+
+        menuItem = new JMenuItem("Exit");
+        menuItem.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                DatabaseConnector.disconnect();
+                System.exit('0');
+            }});
+
+        menu.add(menuItem);
 
         menu = new JMenu("Edit");
         menuBar.add(menu);
