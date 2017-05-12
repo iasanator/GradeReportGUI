@@ -88,7 +88,7 @@ public class UpdateMenu {
 									Connection con = DatabaseConnector.getConnection();
 									//TODO: finish sql string with ? method
 									String SQL = "UPDATE Class SET CourseListing = ?, Name = ?, SectionNumber = ? " + " WHERE CourseListing = ? and Name = ?"+
-											"' and SectionNumber = ?;";
+											" and SectionNumber = ?;";
 									
 									PreparedStatement pstmt;
 									try {
