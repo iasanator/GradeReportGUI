@@ -157,6 +157,8 @@ public class GRFrameStudent extends GRFrame {
                 System.exit('0');
             }});
 
+        menu.add(menuItem);
+
         menu = new JMenu("Edit");
         menuBar.add(menu);
 
