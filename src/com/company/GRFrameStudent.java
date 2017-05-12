@@ -1,8 +1,6 @@
 package com.company;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -148,7 +146,154 @@ public class GRFrameStudent extends GRFrame {
         menu = new JMenu("Edit");
         menuBar.add(menu);
 
-        menuItem = new JMenuItem("Create class");
+        menuItem = new JMenuItem("Create class");menuItem.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                JFrame pop = new JFrame("Create class");
+
+                JPanel panel = new JPanel(new GridBagLayout());
+                GridBagConstraints cs = new GridBagConstraints();
+
+                cs.fill = GridBagConstraints.HORIZONTAL;
+
+                JComboBox comboBox = new JComboBox();
+
+                try {
+                    Connection con = DatabaseConnector.getConnection();
+                    String SQL = "SELECT Name, TeacherID FROM Teacher";
+
+                    PreparedStatement pstmt = con.prepareStatement(SQL);
+                    ResultSet rs = pstmt.executeQuery();
+
+                    DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
+                    comboBox.setModel(comboBoxModel);
+                    while(rs.next()) {
+                        comboBoxModel.addElement(rs.getString("Name") + ":" + rs.getString("TeacherID"));
+                    }
+
+                    comboBoxModel.addElement("No Teacher");
+
+                    cs.gridx = 0;
+                    cs.gridy = 1;
+                    cs.gridwidth = 1;
+                    panel.add(comboBox, cs);
+
+                    // Create fields for assignment
+                    JTextField name = new JTextField("Name");
+                    name.addKeyListener(new KeyAdapter() {
+                        public void keyTyped(KeyEvent e) {
+                            if (name.getText().length() >= Main.MAX_STRING_SIZE ) {
+                                e.consume();
+                            }
+                        }
+                    });
+                    cs.gridx = 0;
+                    cs.gridy = 2;
+                    cs.gridwidth = 1;
+                    panel.add(name, cs);
+
+                    JTextField section = new JTextField("Section Number");
+                    section.addKeyListener(new KeyAdapter() {
+                        public void keyTyped(KeyEvent e) {
+                            if (section.getText().length() >= Main.MAX_STRING_SIZE ) {
+                                e.consume();
+                            }
+                        }
+                    });
+                    cs.gridx = 0;
+                    cs.gridy = 3;
+                    cs.gridwidth = 1;
+                    panel.add(section, cs);
+
+
+                    JTextField listing = new JTextField("Listing");
+                    listing.addKeyListener(new KeyAdapter() {
+                        public void keyTyped(KeyEvent e) {
+                            if (listing.getText().length() >= Main.MAX_STRING_SIZE ) {
+                                e.consume();
+                            }
+                        }
+                    });
+                    cs.gridx = 0;
+                    cs.gridy = 4;
+                    cs.gridwidth = 1;
+                    panel.add(listing, cs);
+
+                    JButton select = new JButton("Select");
+                    select.addActionListener(new ActionListener() {
+
+                        @Override
+                        public void actionPerformed(ActionEvent arg0) {
+                            // TODO Auto-generated method stub.
+                            String teacherID;
+                            String verified;
+                            if (comboBox.getSelectedItem().toString() != "No Teacher") {
+                                teacherID = comboBox.getSelectedItem().toString().split(":")[1];
+                                verified = "1";
+                            } else {
+                                teacherID = "NULL";
+                                verified = "0";
+                            }
+                            String className = name.getText();
+                            String classSection = section.getText();
+                            String classListing = listing.getText();
+
+                            try {
+                                Integer.parseInt(classSection);
+                            } catch (Exception e){
+                                section.setBackground(Color.RED);
+                                return;
+                            }
+
+
+                            Connection con = DatabaseConnector.getConnection();
+
+                            String SQL;
+
+                            if (!teacherID.equals("NULL")) {
+                                SQL = "INSERT INTO Class VALUES (?, ?, ?, ?, ?)";
+                            } else {
+                                SQL = "INSERT INTO Class VALUES (NULL, ?, ?, ?, ?)";
+                            }
+
+                            PreparedStatement pstmt;
+                            try {
+                                pstmt = con.prepareStatement(SQL);
+                                if (!teacherID.equals("NULL")) {
+                                    pstmt.setString(1, teacherID);
+                                    pstmt.setString(2, verified);
+                                    pstmt.setString(3, className);
+                                    pstmt.setString(4, classSection);
+                                    pstmt.setString(5, classListing);
+                                } else {
+                                    pstmt.setString(1, verified);
+                                    pstmt.setString(2, className);
+                                    pstmt.setString(3, classSection);
+                                    pstmt.setString(4, classListing);
+                                }
+                                pstmt.execute();
+                                pop.dispose();
+                            } catch (SQLException exception) {
+                                // TODO Auto-generated catch-block stub.
+                                exception.printStackTrace();
+                            }
+                        }
+
+                    });
+
+                    cs.gridx = 0;
+                    cs.gridy = 5;
+                    cs.gridwidth = 1;
+                    panel.add(select, cs);
+                    pop.add(panel);
+                    pop.pack();
+                    pop.setVisible(true);
+                } catch (SQLException exception) {
+                    // TODO Auto-generated catch-block stub.
+                    exception.printStackTrace();
+                }
+            }});
         menu.add(menuItem);
 
         menuItem = new JMenuItem("Add class");
