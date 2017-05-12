@@ -121,6 +121,7 @@ public class GRFrameTeacher extends GRFrame {
                                 pstmt.setString(1, array[1]);
                                 pstmt.setString(2, array[2]);
                                 ResultSet rs = pstmt.executeQuery();
+                                getContentPane().removeAll();
                                 makeTable(rs);
                                 pstmt.close();
                                 pop.dispose();
