@@ -71,7 +71,7 @@ public class GRFrameTeacher extends GRFrame {
 
         menu.add(menuItem);
 
-        menuItem = new JMenuItem("View Roster");
+        menuItem = new JMenuItem("View Grade Roster");
         menuItem.addActionListener(new ActionListener() {
 
             @Override
