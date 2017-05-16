@@ -8,15 +8,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class LoginDialog extends JDialog {
 
@@ -28,7 +27,7 @@ public class LoginDialog extends JDialog {
     private JButton btnLoginTeacher;
     private JButton btnCancel;
     private boolean succeeded;
-    
+
     int userID;
 
     public LoginDialog(Frame parent) {
@@ -76,27 +75,7 @@ public class LoginDialog extends JDialog {
         btnLoginStudent.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                if (Main.dbConnector.authenticateLogin(getUsername(), getPassword(), true, LoginDialog.this)) {
-                    JOptionPane.showMessageDialog(LoginDialog.this,
-                            "Hi " + getUsername() + "! You have successfully logged in.",
-                            "Login",
-                            JOptionPane.INFORMATION_MESSAGE);
-                    succeeded = true;
-
-                    Main.isStudent = true;
-                    Main.user = getUsername();
-
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(LoginDialog.this,
-                            "Invalid username or password",
-                            "Login",
-                            JOptionPane.ERROR_MESSAGE);
-                    // reset username and password
-                    tfUsername.setText("");
-                    pfPassword.setText("");
-                    succeeded = false;
-                }
+                loginAction(true);
             }
         });
 
@@ -105,28 +84,7 @@ public class LoginDialog extends JDialog {
         btnLoginTeacher.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                if (Main.dbConnector.authenticateLogin(getUsername(), getPassword(), false,LoginDialog.this)) {
-                    JOptionPane.showMessageDialog(LoginDialog.this,
-                            "Hi " + getUsername() + "! You have successfully logged in.",
-                            "Login",
-                            JOptionPane.INFORMATION_MESSAGE);
-                    succeeded = true;
-
-                    Main.isStudent = false;
-                    Main.user = getUsername();
-
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(LoginDialog.this,
-                            "Invalid username or password",
-                            "Login",
-                            JOptionPane.ERROR_MESSAGE);
-                    // reset username and password
-                    tfUsername.setText("");
-                    pfPassword.setText("");
-                    succeeded = false;
-
-                }
+                loginAction(false);
             }
         });
 
@@ -159,12 +117,97 @@ public class LoginDialog extends JDialog {
     public String getPassword() {
         return new String(pfPassword.getPassword());
     }
-    
+
     public int getuserID() {
-    	return userID;
+        return userID;
     }
 
     public boolean isSucceeded() {
         return succeeded;
+    }
+
+    private void loginAction(boolean isStudent){
+        if (Main.dbConnector.authenticateLogin(getUsername(), getPassword(), true, LoginDialog.this)) {
+            JOptionPane.showMessageDialog(LoginDialog.this,
+                    "Hi " + getUsername() + "! You have successfully logged in.",
+                    "Login",
+                    JOptionPane.INFORMATION_MESSAGE);
+            succeeded = true;
+
+            Main.isStudent = isStudent;
+            Main.user = getUsername();
+
+            dispose();
+        } else {
+            int response = JOptionPane.showConfirmDialog(LoginDialog.this,
+                    "Invalid username or password. Create a new account?",
+                    "Login",
+                    JOptionPane.ERROR_MESSAGE);
+
+            if (response == JOptionPane.YES_OPTION) {
+
+                String password = JOptionPane.showInputDialog("Please re-enter your password");
+
+                if (!password.equals(getPassword())) {
+                    JOptionPane.showMessageDialog(LoginDialog.this, "Passwords don't match", "Login", JOptionPane.ERROR_MESSAGE);
+
+                    // reset username and password
+                    tfUsername.setText("");
+                    pfPassword.setText("");
+                    succeeded = false;
+
+                    return;
+
+                }
+
+                String name = JOptionPane.showInputDialog("Please enter your name");
+
+                try {
+                    Connection con = DatabaseConnector.getConnection();
+                    String SQL;
+                    if (isStudent) {
+                        SQL = "INSERT INTO Student VALUES (?, ?, ?, ?)";
+                    } else {
+                        SQL = "INSERT INTO Teacher VALUES (?, ?, ?)";
+                    }
+
+                    PreparedStatement pstmt = con.prepareStatement(SQL);
+                    pstmt.setString(1, String.valueOf(getUsername()));
+                    pstmt.setString(2, DatabaseConnector.hash(getPassword()));
+                    pstmt.setString(3, name);
+
+                    if (isStudent){
+                        pstmt.setString(4, "4.0");
+                    }
+
+                    pstmt.execute();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(LoginDialog.this, "Your username already exists", "Login", JOptionPane.ERROR_MESSAGE);
+
+                    // reset username and password
+                    tfUsername.setText("");
+                    pfPassword.setText("");
+                    succeeded = false;
+
+                    return;
+
+                }
+
+                succeeded = true;
+
+                Main.isStudent = isStudent;
+                Main.user = getUsername();
+
+                dispose();
+                return;
+
+            } else {
+
+                // reset username and password
+                tfUsername.setText("");
+                pfPassword.setText("");
+                succeeded = false;
+            }
+        }
     }
 }
