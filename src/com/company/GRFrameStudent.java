@@ -24,7 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
- * Created by iassona on 5/2/2017.
+ * Builds frame for student.
  */
 public class GRFrameStudent extends GRFrame {
 
@@ -37,6 +37,9 @@ public class GRFrameStudent extends GRFrame {
 
     }
 
+    /**
+     * Initializes the menu bar.
+     */
     private void initMenuBar() {
 
         super.menuBar = new JMenuBar();

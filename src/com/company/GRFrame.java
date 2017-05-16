@@ -13,7 +13,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * Created by iassona on 4/21/2017.
+ * This is a super class for student and teacher frame. It implements
+ * methods needed in both.
  */
 public class GRFrame extends JFrame{
 
@@ -25,6 +26,11 @@ public class GRFrame extends JFrame{
         super(title);
     }
     
+    /**
+     * Makes table on GRframe with given data.
+     * 
+     * @param rs
+     */
     public void makeTable(ResultSet rs) {
     	JTable table = new JTable();
 		DefaultTableModel model = new DefaultTableModel() {

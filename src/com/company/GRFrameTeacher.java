@@ -25,7 +25,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 /**
- * Created by iassona on 5/2/2017.
+ * Builds frame for teacher.
  */
 public class GRFrameTeacher extends GRFrame {
 
@@ -38,6 +38,9 @@ public class GRFrameTeacher extends GRFrame {
         this.initMenuBar();
     }
 
+    /**
+     * Initializes the menu bar.
+     */
     private void initMenuBar() {
 
         menuBar = new JMenuBar();
