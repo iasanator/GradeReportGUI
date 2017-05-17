@@ -52,7 +52,8 @@ public class GRFrameStudent extends GRFrame {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-            	JFrame pop = new JFrame("Add class");
+            	JFrame pop = new JFrame("Select class");
+            	pop.setLocationRelativeTo(null);
 
                 JComboBox comboBox = new JComboBox();
 
@@ -165,6 +166,7 @@ public class GRFrameStudent extends GRFrame {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 JFrame pop = new JFrame("Create class");
+                pop.setLocationRelativeTo(null);
 
                 JPanel panel = new JPanel(new GridBagLayout());
                 GridBagConstraints cs = new GridBagConstraints();
@@ -313,6 +315,7 @@ public class GRFrameStudent extends GRFrame {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 JFrame pop = new JFrame("Add class");
+                pop.setLocationRelativeTo(null);
 
                 JComboBox comboBox = new JComboBox();
 
@@ -381,6 +384,7 @@ public class GRFrameStudent extends GRFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				final JFrame pop = new JFrame("Create category");
+                pop.setLocationRelativeTo(null);
 				JPanel panel = new JPanel(new GridBagLayout());
 				
 				final JComboBox comboBox = new JComboBox();
@@ -501,6 +505,7 @@ public class GRFrameStudent extends GRFrame {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 JFrame pop = new JFrame("Create assignment");
+                pop.setLocationRelativeTo(null);
 
                 JPanel panel = new JPanel(new GridBagLayout());
                 GridBagConstraints cs = new GridBagConstraints();
@@ -663,6 +668,7 @@ public class GRFrameStudent extends GRFrame {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 JFrame pop = new JFrame("Create grade");
+                pop.setLocationRelativeTo(null);
 
                 JPanel panel = new JPanel(new GridBagLayout());
                 GridBagConstraints cs = new GridBagConstraints();
