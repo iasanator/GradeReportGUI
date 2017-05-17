@@ -13,7 +13,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
-<<<<<<< HEAD
  * This is the parent class for both GRFrameStudent and GRFrameTeacher
  *
  * It contains the common methods that the frame uses to display information and inherits
@@ -21,10 +20,6 @@ import javax.swing.table.DefaultTableModel;
  *
  * It also makes it so that the menu and menuBar are accessible from the Main class.
  *
-=======
- * This is a super class for student and teacher frame. It implements
- * methods needed in both.
->>>>>>> 5d3c3b0a69e9a6a889b4e542495c159f2ea3dcda
  */
 public class GRFrame extends JFrame{
 
@@ -35,7 +30,6 @@ public class GRFrame extends JFrame{
     public GRFrame(String title) {
         super(title);
     }
-<<<<<<< HEAD
 
 
 	/**
@@ -44,17 +38,8 @@ public class GRFrame extends JFrame{
 	 * a spreadsheet of the data that fills the frame
 	 *
 	 * @param rs
-	 */
-	public void makeTable(ResultSet rs) {
-=======
-    
-    /**
-     * Makes table on GRframe with given data.
-     * 
-     * @param rs
-     */
+	 **/
     public void makeTable(ResultSet rs) {
->>>>>>> 5d3c3b0a69e9a6a889b4e542495c159f2ea3dcda
     	JTable table = new JTable();
 		DefaultTableModel model = new DefaultTableModel() {
 			
