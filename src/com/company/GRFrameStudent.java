@@ -80,7 +80,6 @@ public class GRFrameStudent extends GRFrame {
 
                         @Override
                         public void actionPerformed(ActionEvent arg0) {
-                            // TODO Auto-generated method stub.
                             String item = comboBox.getSelectedItem().toString();
 
                             String[] array = item.split(": ");
@@ -104,7 +103,6 @@ public class GRFrameStudent extends GRFrame {
                                 pstmt.close();
                                 pop.dispose();
                             } catch (SQLException exception) {
-                                // TODO Auto-generated catch-block stub.
                                 exception.printStackTrace();
                             }
                         }
@@ -116,7 +114,6 @@ public class GRFrameStudent extends GRFrame {
                     pop.pack();
                     pop.setVisible(true);
                 } catch (SQLException exception) {
-                    // TODO Auto-generated catch-block stub.
                     exception.printStackTrace();
                 }
             }});
@@ -128,8 +125,6 @@ public class GRFrameStudent extends GRFrame {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                // TODO Auto-generated method stub.
-                //System.out.println("menu pressed User: " + userID);
                 getContentPane().removeAll();
 
                 try {
@@ -142,7 +137,6 @@ public class GRFrameStudent extends GRFrame {
 
                     makeTable(rs);
                 } catch (SQLException exception) {
-                    // TODO Auto-generated catch-block stub.
                     exception.printStackTrace();
                 }
             }});
@@ -165,7 +159,8 @@ public class GRFrameStudent extends GRFrame {
         menu = new JMenu("Edit");
         menuBar.add(menu);
 
-        menuItem = new JMenuItem("Create class");menuItem.addActionListener(new ActionListener() {
+        menuItem = new JMenuItem("Create class");
+        menuItem.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -244,7 +239,6 @@ public class GRFrameStudent extends GRFrame {
 
                         @Override
                         public void actionPerformed(ActionEvent arg0) {
-                            // TODO Auto-generated method stub.
                             String teacherID;
                             String verified;
                             if (comboBox.getSelectedItem().toString() != "No Teacher") {
@@ -294,7 +288,6 @@ public class GRFrameStudent extends GRFrame {
                                 pstmt.execute();
                                 pop.dispose();
                             } catch (SQLException exception) {
-                                // TODO Auto-generated catch-block stub.
                                 exception.printStackTrace();
                             }
                         }
@@ -309,7 +302,6 @@ public class GRFrameStudent extends GRFrame {
                     pop.pack();
                     pop.setVisible(true);
                 } catch (SQLException exception) {
-                    // TODO Auto-generated catch-block stub.
                     exception.printStackTrace();
                 }
             }});
@@ -347,7 +339,6 @@ public class GRFrameStudent extends GRFrame {
 
                         @Override
                         public void actionPerformed(ActionEvent arg0) {
-                            // TODO Auto-generated method stub.
                             String item = comboBox.getSelectedItem().toString();
 
                             String[] array = item.split(": ");
@@ -367,7 +358,6 @@ public class GRFrameStudent extends GRFrame {
                                 pstmt.execute();
                                 pop.dispose();
                             } catch (SQLException exception) {
-                                // TODO Auto-generated catch-block stub.
                                 exception.printStackTrace();
                             }
                         }
@@ -379,7 +369,6 @@ public class GRFrameStudent extends GRFrame {
                     pop.pack();
                     pop.setVisible(true);
                 } catch (SQLException exception) {
-                    // TODO Auto-generated catch-block stub.
                     exception.printStackTrace();
                 }
             }});
@@ -446,7 +435,6 @@ public class GRFrameStudent extends GRFrame {
 
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						// TODO Auto-generated method stub.
 						String catName;
 						float catWeight;
 						int classID;
@@ -460,7 +448,6 @@ public class GRFrameStudent extends GRFrame {
                         }
 						
 						String[] array = item.split(": ");
-						//System.out.println(array[1]);
 						
 						Connection con1 = DatabaseConnector.getConnection();
 						String clsID = "(SELECT ClassID FROM Class WHERE Name = ?" +
@@ -491,7 +478,6 @@ public class GRFrameStudent extends GRFrame {
 							
 									
 						} catch (SQLException exception) {
-							// TODO Auto-generated catch-block stub.
 							exception.printStackTrace();
 							
 						}
@@ -504,7 +490,6 @@ public class GRFrameStudent extends GRFrame {
 				pop.pack();
 				pop.setVisible(true);
 				} catch (SQLException exception) {
-					// TODO Auto-generated catch-block stub.
 					exception.printStackTrace();
 				}				
 		}});
@@ -553,7 +538,6 @@ public class GRFrameStudent extends GRFrame {
                             String item = comboBox.getSelectedItem().toString();
 
                             String[] array = item.split(": ");
-                            //System.out.println(array[1]);
 
                             try {
                                 Connection con = DatabaseConnector.getConnection();
@@ -574,7 +558,6 @@ public class GRFrameStudent extends GRFrame {
                                 }
 
                             } catch (SQLException exception) {
-                                // TODO Auto-generated catch-block stub.
                                 exception.printStackTrace();
                             }
 
@@ -621,7 +604,6 @@ public class GRFrameStudent extends GRFrame {
 
                         @Override
                         public void actionPerformed(ActionEvent arg0) {
-                            // TODO Auto-generated method stub.
                             String category = comboBox2.getSelectedItem().toString();
                             String assignmentName = name.getText();
                             String assignmentPoints = points.getText();
@@ -655,7 +637,6 @@ public class GRFrameStudent extends GRFrame {
                                 pstmt.execute();
                                 pop.dispose();
                             } catch (SQLException exception) {
-                                // TODO Auto-generated catch-block stub.
                                 exception.printStackTrace();
                             }
                         }
@@ -670,7 +651,6 @@ public class GRFrameStudent extends GRFrame {
                     pop.pack();
                     pop.setVisible(true);
                 } catch (SQLException exception) {
-                    // TODO Auto-generated catch-block stub.
                     exception.printStackTrace();
                 }
             }});
@@ -720,7 +700,6 @@ public class GRFrameStudent extends GRFrame {
                             String item = comboBox.getSelectedItem().toString();
 
                             String[] array = item.split(": ");
-                            //System.out.println(array[1]);
 
                             try {
                                 Connection con = DatabaseConnector.getConnection();
@@ -741,7 +720,6 @@ public class GRFrameStudent extends GRFrame {
                                 }
 
                             } catch (SQLException exception) {
-                                // TODO Auto-generated catch-block stub.
                                 exception.printStackTrace();
                             }
 
@@ -762,7 +740,6 @@ public class GRFrameStudent extends GRFrame {
                             String item2 =comboBox2.getSelectedItem().toString();
 
                             String[] array = item.split(": ");
-                            //System.out.println(array[1]);
 
                             try {
                                 Connection con = DatabaseConnector.getConnection();
@@ -787,7 +764,6 @@ public class GRFrameStudent extends GRFrame {
                                 }
 
                             } catch (SQLException exception) {
-                                // TODO Auto-generated catch-block stub.
                                 exception.printStackTrace();
                             }
 
@@ -820,7 +796,6 @@ public class GRFrameStudent extends GRFrame {
 
                         @Override
                         public void actionPerformed(ActionEvent arg0) {
-                            // TODO Auto-generated method stub.
                             String category = comboBox2.getSelectedItem().toString();
                             String assignmentName = comboBox3.getSelectedItem().toString();
                             String assignmentPoints = points.getText();
@@ -858,7 +833,6 @@ public class GRFrameStudent extends GRFrame {
                                 pstmt.execute();
                                 pop.dispose();
                             } catch (SQLException exception) {
-                                // TODO Auto-generated catch-block stub.
                                 exception.printStackTrace();
                             }
                         }
@@ -873,7 +847,6 @@ public class GRFrameStudent extends GRFrame {
                     pop.pack();
                     pop.setVisible(true);
                 } catch (SQLException exception) {
-                    // TODO Auto-generated catch-block stub.
                     exception.printStackTrace();
                 }
             }});

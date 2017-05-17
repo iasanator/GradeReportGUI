@@ -43,7 +43,6 @@ public class GRFrame extends JFrame{
 		};
 		table.setModel(model);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		//table.setFillsViewportHeight(true);
 		JScrollPane scroll = new JScrollPane(table);
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
@@ -69,7 +68,6 @@ public class GRFrame extends JFrame{
 		add(scroll);
 		setVisible(true);
 		} catch (SQLException exception) {
-			// TODO Auto-generated catch-block stub.
 			exception.printStackTrace();
 		}
     }
