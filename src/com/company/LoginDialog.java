@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -31,6 +32,10 @@ public class LoginDialog extends JDialog {
     int userID;
 
     public LoginDialog(Frame parent) {
+
+
+        //Begin to create the layout of the login pane
+
         super(parent, "Login", true);
         //
         JPanel panel = new JPanel(new GridBagLayout());
@@ -110,24 +115,44 @@ public class LoginDialog extends JDialog {
         this.getRootPane().setDefaultButton(btnLoginStudent);
     }
 
+    /**
+     *
+     * Gets the username input to the login dialog
+     *
+     * @return
+     */
     public String getUsername() {
         return tfUsername.getText().trim();
     }
 
+    /**
+     *
+     * Gets the password input to the login dialog
+     *
+     * @return
+     */
     public String getPassword() {
         return new String(pfPassword.getPassword());
     }
 
-    public int getuserID() {
-        return userID;
-    }
-
+    /**
+     *
+     * Gets whether or not the login attemp was successful
+     *
+     * @return
+     */
     public boolean isSucceeded() {
         return succeeded;
     }
 
+    /**
+     *
+     * Handles the authentication and registration of a user in the database.
+     *
+     * @param isStudent
+     */
     private void loginAction(boolean isStudent){
-        if (Main.dbConnector.authenticateLogin(getUsername(), getPassword(), true, LoginDialog.this)) {
+        if (Main.dbConnector.authenticateLogin(getUsername(), getPassword(), isStudent, LoginDialog.this)) {
             JOptionPane.showMessageDialog(LoginDialog.this,
                     "Hi " + getUsername() + "! You have successfully logged in.",
                     "Login",
@@ -146,10 +171,8 @@ public class LoginDialog extends JDialog {
 
             if (response == JOptionPane.YES_OPTION) {
 
-                String password = JOptionPane.showInputDialog("Please re-enter your password");
-
-                if (!password.equals(getPassword())) {
-                    JOptionPane.showMessageDialog(LoginDialog.this, "Passwords don't match", "Login", JOptionPane.ERROR_MESSAGE);
+                if (usernameInDatabase(getUsername(), isStudent)){
+                    JOptionPane.showMessageDialog(LoginDialog.this, "Username is already taken", "Error", JOptionPane.ERROR_MESSAGE);
 
                     // reset username and password
                     tfUsername.setText("");
@@ -160,7 +183,33 @@ public class LoginDialog extends JDialog {
 
                 }
 
-                String name = JOptionPane.showInputDialog("Please enter your name");
+                JPasswordField jpf = new JPasswordField(24);
+                JLabel jl = new JLabel("Please re-enter your password");
+                Box box = Box.createVerticalBox();
+                box.add(jl);
+                box.add(jpf);
+                JOptionPane.showMessageDialog(LoginDialog.this, box, "Password", JOptionPane.QUESTION_MESSAGE);
+
+                String password = jpf.getText();
+
+                if (!password.equals(getPassword())) {
+                    JOptionPane.showMessageDialog(LoginDialog.this, "Passwords don't match", "Error", JOptionPane.OK_OPTION);
+
+                    // reset username and password
+                    tfUsername.setText("");
+                    pfPassword.setText("");
+                    succeeded = false;
+
+                    return;
+
+                }
+
+                String name = JOptionPane.showInputDialog(LoginDialog.this, "Please enter your name");
+
+                while (name.length() > Main.MAX_STRING_SIZE) {
+                    JOptionPane.showMessageDialog(LoginDialog.this, "Name is too long", "Error", JOptionPane.ERROR_MESSAGE);
+                    name = JOptionPane.showInputDialog("Please enter your name");
+                }
 
                 try {
                     Connection con = DatabaseConnector.getConnection();
@@ -210,4 +259,44 @@ public class LoginDialog extends JDialog {
             }
         }
     }
+
+
+    /**
+     *
+     * This checks to see if a given username is already contained in either the
+     * student of the teacher tables of the database.
+     *
+     * @param username
+     * @param isStudent
+     * @return
+     */
+    private boolean usernameInDatabase(String username, boolean isStudent) {
+
+        String table = "Student";
+
+        if (!isStudent) {
+            table = "Teacher";
+        }
+
+        try {
+            Connection con = DatabaseConnector.getConnection();
+            String SQL = "SELECT Username FROM " + table +
+                    " WHERE Username = ?";
+
+            System.out.println(SQL);
+
+            PreparedStatement pstmt = con.prepareStatement(SQL);
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+
+            return rs.next();
+
+        } catch (SQLException exception) {
+            // TODO Auto-generated catch-block stub.
+            exception.printStackTrace();
+        }
+
+        return false;
+    }
+
 }

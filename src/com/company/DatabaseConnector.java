@@ -8,7 +8,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Created by iassona on 4/21/2017.
+ *
+ * This class is responsible for connecting to the database and maintaining
+ * a connection over the course of the session.
+ *
+ * It also handles authentication, hashing, and
+ *
  */
 public class DatabaseConnector {
 
@@ -28,6 +33,9 @@ public class DatabaseConnector {
 
     }
 
+    /**
+     * Connects to the database
+     */
     private static void connect() {
         try {
             con = DriverManager.getConnection(connectionUrl);
@@ -36,6 +44,9 @@ public class DatabaseConnector {
         }
     }
 
+    /**
+     * Disconnects from the database
+     */
     public static void disconnect() {
         try {
             con.close();
@@ -44,6 +55,15 @@ public class DatabaseConnector {
         }
     }
 
+    /**
+     * Handles the login authentication.
+     * It checks if the credential pair exists in the database in a given table
+     * @param username
+     * @param password
+     * @param isStudent
+     * @param logindlg
+     * @return
+     */
     public static boolean authenticateLogin(String username, String password, boolean isStudent, LoginDialog logindlg) {
 
         boolean loggedIn = false;
@@ -97,7 +117,13 @@ public class DatabaseConnector {
         return loggedIn;
     }
 
-
+    /**
+     *
+     * This will hash a given string using a SHA-512 hashing implementation
+     *
+     * @param input
+     * @return
+     */
     public static String hash(String input){
         try{
             md.update(input.getBytes("UTF-8"));
@@ -109,6 +135,13 @@ public class DatabaseConnector {
         return null;
     }
 
+
+    /**
+     *
+     * Gets the connection needed to execute queries from external classes
+     *
+     * @return
+     */
     public static Connection getConnection(){
         connect();
         return con;
