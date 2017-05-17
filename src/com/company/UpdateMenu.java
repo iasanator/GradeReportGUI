@@ -33,13 +33,16 @@ public class UpdateMenu {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				final JFrame pop = new JFrame("Update class");
+				final JPanel panel = new JPanel(new GridBagLayout());
 				
 				final JComboBox comboBox = new JComboBox();
+				final GridBagConstraints layout = new GridBagConstraints();
+				layout.fill = GridBagConstraints.HORIZONTAL;
 
 				try {
 					Connection con = DatabaseConnector.getConnection();
 					String SQL = "SELECT Name, SectionNumber, CourseListing FROM Class "
-							+ "WHERE ClassID = (SELECT ClassID FROM Enrolled WHERE StudentID = ?)";
+							+ "WHERE ClassID IN (SELECT ClassID FROM Enrolled WHERE StudentID = ?)";
 
 					PreparedStatement pstmt = con.prepareStatement(SQL);
 					pstmt.setString(1, String.valueOf(Main.userID));
@@ -53,86 +56,92 @@ public class UpdateMenu {
 								+ rs.getString("SectionNumber"));
 					}
 					comboBox.setSelectedItem(null);
-					pop.getContentPane().add(comboBox, BorderLayout.CENTER);
+					layout.gridx = 0;
+					layout.gridy = 0;
+					layout.gridwidth = 2;
+					panel.add(comboBox, layout);
 
-					JButton select = new JButton("Select");
-					select.addActionListener(new ActionListener() {
+					final String[] array = new String[3];
+					final JTextField courseListing = new JTextField(array[0]);
+					courseListing.addKeyListener(new LengthControler(courseListing));
+					final JTextField name = new JTextField(array[1]);
+					name.addKeyListener(new LengthControler(name));
+					final JTextField sectionNum = new JTextField(array[2]);
+					sectionNum.addKeyListener(new LengthControler(sectionNum));
+					layout.gridx = 0;
+					layout.gridy = 2;
+					layout.gridwidth = 2;
+					panel.add(courseListing, layout);
+					layout.gridy = 3;
+					panel.add(name, layout);
+					layout.gridy = 4;
+					panel.add(sectionNum, layout);
+					comboBox.addActionListener(new ActionListener() {
 
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
 							String item = comboBox.getSelectedItem().toString();
 
-							final String[] array = item.split(": ");
-							
+							String[] temp = item.split(": ");
+							array[0] = temp[0];
+							array[1] = temp[1];
+							array[2] = temp[2];
 							//array[0] = CourseListing
 							//array[1] = Name
 							//array[2] = Section#
-							
-							pop.dispose();
-							final JTextField courseListing = new JTextField(array[0]);
-							courseListing.addKeyListener(new LengthControler(courseListing));
-							final JTextField name = new JTextField(array[1]);
-							name.addKeyListener(new LengthControler(name));
-							final JTextField sectionNum = new JTextField(array[2]);
-							sectionNum.addKeyListener(new LengthControler(sectionNum));
-							pop.getContentPane().add(courseListing, -1);
-							pop.getContentPane().add(name, -1);
-							pop.getContentPane().add(sectionNum, -1);
-							
-							JButton update = new JButton("Update");
-							update.addActionListener(new ActionListener() {
-								
-								@SuppressWarnings("resource")
-								@Override
-								public void actionPerformed(ActionEvent e) {
-									Connection con = DatabaseConnector.getConnection();
-									//TODO: finish sql string with ? method
-									String SQL = "UPDATE Class SET CourseListing = ?, Name = ?, SectionNumber = ? " + " WHERE CourseListing = ? and Name = ?"+
-											" and SectionNumber = ?;";
-									
-									PreparedStatement pstmt;
-									try {
-										pstmt = con.prepareStatement(SQL);
-										pstmt.setString(1, courseListing.getText());
-										pstmt.setString(2, name.getText());
-										pstmt.setString(3, sectionNum.getText());
-										pstmt.setString(4, array[0]);
-										pstmt.setString(5, array[1]);
-										pstmt.setString(6, array[2]);
-										
-										pstmt.executeQuery();
-									} catch (SQLException exception) {
-										// TODO Auto-generated catch-block stub.
-										exception.printStackTrace();
-									}
-								}
-									
-							});
-							
-							JButton cancel = new JButton("Cancel");
-							cancel.addActionListener(new ActionListener() {
-								
-								@Override
-								public void actionPerformed(ActionEvent e) {
-									// TODO Auto-generated method stub.
-									courseListing.setText(array[0]);
-									name.setText(array[1]);
-									sectionNum.setText(array[2]);
-								}
-							});
-							JPanel buttons = new JPanel(new GridBagLayout());
-							GridBagConstraints cs = new GridBagConstraints();
-							cs.fill = GridBagConstraints.HORIZONTAL;
-							cs.gridx = 0;
-							cs.gridy = 0;
-							buttons.add(update,cs);
-							cs.gridx = 1;
-							buttons.add(cancel,cs);
-							pop.getContentPane().add(buttons);
+							courseListing.setText(array[0]);
+							name.setText(array[1]);
+							sectionNum.setText(array[2]);
 						}
 
 					});
-
+					JButton update = new JButton("Update");
+					update.addActionListener(new ActionListener() {
+						
+						@SuppressWarnings("resource")
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							Connection con = DatabaseConnector.getConnection();
+							//TODO: finish sql string with ? method
+							String SQL = "UPDATE Class SET CourseListing = ?, Name = ?, SectionNumber = ? " + " WHERE CourseListing = ? and Name = ?"+
+									" and SectionNumber = ?;";
+							
+							PreparedStatement pstmt;
+							try {
+								pstmt = con.prepareStatement(SQL);
+								pstmt.setString(1, courseListing.getText());
+								pstmt.setString(2, name.getText());
+								pstmt.setString(3, sectionNum.getText());
+								pstmt.setString(4, array[0]);
+								pstmt.setString(5, array[1]);
+								pstmt.setString(6, array[2]);
+								
+								pstmt.execute();
+							} catch (SQLException exception) {
+								// TODO Auto-generated catch-block stub.
+								exception.printStackTrace();
+							}
+						}
+							
+					});
+					
+					JButton cancel = new JButton("Cancel");
+					cancel.addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub.
+							courseListing.setText(array[0]);
+							name.setText(array[1]);
+							sectionNum.setText(array[2]);
+						}
+					});
+					layout.gridy = 5;
+					layout.gridwidth = 1;
+					panel.add(update, layout);
+					layout.gridx = 1;
+					panel.add(cancel, layout);
+					pop.getContentPane().add(panel, BorderLayout.CENTER);
 					pop.pack();
 					pop.setVisible(true);
 				} catch (SQLException exception) {
@@ -156,6 +165,7 @@ public class UpdateMenu {
 				GridBagConstraints layout = new GridBagConstraints();
 
 				layout.fill = GridBagConstraints.HORIZONTAL;
+				
 
 				try {
 					final String[] array = new String[3];
@@ -171,7 +181,15 @@ public class UpdateMenu {
 					DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
 					comboBox.setModel(comboBoxModel);
 					comboBox.setSelectedItem(null);
-					
+					final JTextField nameText = new JTextField(array2[1]);
+					nameText.addKeyListener(new LengthControler(nameText));
+					layout.gridwidth = 2;
+					layout.gridy = 2;
+					panel.add(nameText, layout);
+					final JTextField weightText = new JTextField(array2[2]);
+					weightText.addKeyListener(new LengthControler(weightText));
+					layout.gridy = 3;
+					panel.add(weightText, layout);
 
 					while (rs.next()) {
 						comboBoxModel.addElement(rs.getString("CourseListing") + ": " + rs.getString("Name") + ": "
@@ -192,7 +210,7 @@ public class UpdateMenu {
 							//array[1] = Name
 							//array[2] = Section#
 							String SQL = "SELECT CategoryID, Name, Weight FROM Category "
-							+ "WHERE ClassID = ?";
+							+ "WHERE ClassID = (SELECT ClassID FROM Class WHERE CourseListing = ? and SectionNumber = ?)";
 							PreparedStatement pstmt;
 							
 							DefaultComboBoxModel comboBoxModel2 = new DefaultComboBoxModel();
@@ -201,7 +219,8 @@ public class UpdateMenu {
 							
 							try {
 								pstmt = con.prepareStatement(SQL);
-								pstmt.setString(1, array[2]);
+								pstmt.setString(1, array[0]);
+								pstmt.setString(2, array[2]);
 								ResultSet rs = pstmt.executeQuery();
 								while (rs.next()) {
 									comboBoxModel2.addElement(rs.getString("CategoryID") + ": " + rs.getString("Name") + ": "
@@ -217,6 +236,7 @@ public class UpdateMenu {
 								@Override
 								public void actionPerformed(ActionEvent e) {
 									// TODO Auto-generated method stub.
+									if(comboBox2.getSelectedItem()!= null){
 									String item = comboBox2.getSelectedItem().toString();
 
 									String[] temp = item.split(": ");
@@ -227,7 +247,9 @@ public class UpdateMenu {
 									//array2[0] = CategoryID
 									//array2[1] = Name
 									//array2[2] = Weight
-								}
+									nameText.setText(array2[1]);
+									weightText.setText(array2[2]);
+								}}
 							});
 							
 						}
@@ -235,19 +257,12 @@ public class UpdateMenu {
 					
 					layout.gridx = 0;
 					layout.gridy = 0;
-					layout.gridwidth = 2;
+					
 					panel.add(comboBox, layout);
-
-					
-					
-					final JTextField nameText = new JTextField(array2[1]);
-					nameText.addKeyListener(new LengthControler(nameText));
 					layout.gridy = 1;
-					panel.add(nameText, layout);
-					final JTextField weightText = new JTextField(array2[2]);
-					weightText.addKeyListener(new LengthControler(weightText));
-					layout.gridy = 2;
-					panel.add(weightText, layout);
+					panel.add(comboBox2, layout);
+					
+					
 					final JButton sendButton = new JButton("Update");
 
 					sendButton.addActionListener(new ActionListener() {
@@ -257,18 +272,17 @@ public class UpdateMenu {
 							// TODO Auto-generated method stub.
 							String catName;
 							float catWeight;
-							int classID;
 							String item = comboBox.getSelectedItem().toString();
 
 							String[] array = item.split(": ");
 							// System.out.println(array[1]);
 
 							Connection con1 = DatabaseConnector.getConnection();
-							String clsID = "(UPDATE Category SET Name = ?, Weight = ? WHERE CategoryID = ?;";
+							String clsID = "UPDATE Category SET Name = ?, Weight = ? WHERE CategoryID = ?";
 
 							catName = nameText.getText();
-							catWeight = Integer.parseInt(weightText.getText());
-							catWeight /= 100;
+							catWeight = (float) Double.parseDouble(weightText.getText());
+							
 
 							PreparedStatement pstmt;
 							try {
@@ -276,7 +290,7 @@ public class UpdateMenu {
 								pstmt.setString(1, catName);
 								pstmt.setLong(2, (long) catWeight);
 								pstmt.setString(3, array2[0]);
-								pstmt.executeQuery();
+								pstmt.execute();
 
 							} catch (SQLException exception) {
 								// TODO Auto-generated catch-block stub.
@@ -286,7 +300,7 @@ public class UpdateMenu {
 
 						}
 					});
-					layout.gridy = 3;
+					layout.gridy = 4;
 					layout.gridwidth = 1;
 					panel.add(sendButton, layout);
 					
@@ -299,7 +313,11 @@ public class UpdateMenu {
 							weightText.setText(array2[2]);
 						}
 					});
-
+					
+					layout.gridx = 1;
+					layout.gridwidth = 1;
+					panel.add(cancel, layout);
+					
 					pop.add(panel);
 					pop.pack();
 					pop.setVisible(true);
@@ -396,6 +414,7 @@ public class UpdateMenu {
 						
 						@Override
 						public void actionPerformed(ActionEvent e) {
+							if(comboBox2.getSelectedItem()!=null){
 							String item = comboBox2.getSelectedItem().toString();
 
 							String[] temp = item.split(": ");
@@ -404,7 +423,7 @@ public class UpdateMenu {
 							try {
 								Connection con = DatabaseConnector.getConnection();
 								String SQL = "SELECT Name, TotalPoints, AssignmentID FROM Assignment "
-										+ "WHERE CategoryID = ?)";
+										+ "WHERE CategoryID = ?";
 
 								PreparedStatement pstmt = con.prepareStatement(SQL);
 								pstmt.setString(1, temp[1]);
@@ -421,29 +440,12 @@ public class UpdateMenu {
 								// TODO Auto-generated catch-block stub.
 								exception.printStackTrace();
 							}
-						}
+						}}
 					});
 					cs.gridx = 0;
 					cs.gridy = 2;
 					cs.gridwidth = 2;
 					panel.add(comboBox3, cs);
-					comboBox3.addActionListener(new ActionListener() {
-						
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							String item = comboBox2.getSelectedItem().toString();
-
-							String[] temp = item.split(": ");
-							//array[1] = Name
-							//array[2] = TotalPoints
-							//array[3] = AssignmentID
-							array[1]=temp[0];
-							array[2]=temp[1];
-							array[3]=temp[2];
-						}
-					});
-					
-
 					final JTextField name = new JTextField(array[1]);
 					name.addKeyListener(new LengthControler(name));
 
@@ -459,6 +461,25 @@ public class UpdateMenu {
 					cs.gridy = 5;
 					cs.gridwidth = 2;
 					panel.add(points, cs);
+					comboBox3.addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							if(comboBox3.getSelectedItem()!=null){
+							String item = comboBox3.getSelectedItem().toString();
+
+							String[] temp = item.split(": ");
+							//array[1] = Name
+							//array[2] = TotalPoints
+							//array[3] = AssignmentID
+							array[1]=temp[0];
+							array[2]=temp[1];
+							array[3]=temp[2];
+							name.setText(array[1]);
+							points.setText(array[2]);
+						}}
+					});
+					
 
 					JButton update = new JButton("Update");
 					update.addActionListener(new ActionListener() {
@@ -471,7 +492,7 @@ public class UpdateMenu {
 
 
 							Connection con = DatabaseConnector.getConnection();
-							String SQL = "(UPDATE Assignment SET Name = ?, TotalPoints = ? WHERE AssignmentID = ?;";
+							String SQL = "UPDATE Assignment SET Name = ?, TotalPoints = ? WHERE AssignmentID = ?";
 
 							PreparedStatement pstmt;
 							try {
@@ -481,7 +502,6 @@ public class UpdateMenu {
 								pstmt.setString(3, array[3]);
 								
 								pstmt.execute();
-								pop.dispose();
 							} catch (SQLException exception) {
 								// TODO Auto-generated catch-block stub.
 								exception.printStackTrace();
@@ -518,7 +538,7 @@ public class UpdateMenu {
 			}
 		});
 		menu.add(menuItem);
-		//above done
+		
 		menuItem = new JMenuItem("Update grade");
 		menuItem.addActionListener(new ActionListener() {
 
@@ -605,6 +625,7 @@ public class UpdateMenu {
 						
 						@Override
 						public void actionPerformed(ActionEvent e) {
+							if(comboBox2.getSelectedItem()!=null){
 							String item = comboBox2.getSelectedItem().toString();
 
 							String[] temp = item.split(": ");
@@ -613,7 +634,7 @@ public class UpdateMenu {
 							try {
 								Connection con = DatabaseConnector.getConnection();
 								String SQL = "SELECT Name, TotalPoints, AssignmentID FROM Assignment "
-										+ "WHERE CategoryID = ?)";
+										+ "WHERE CategoryID = ?";
 
 								PreparedStatement pstmt = con.prepareStatement(SQL);
 								pstmt.setString(1, temp[1]);
@@ -629,7 +650,7 @@ public class UpdateMenu {
 							} catch (SQLException exception) {
 								exception.printStackTrace();
 							}
-						}
+						}}
 					});
 					cs.gridx = 0;
 					cs.gridy = 2;
@@ -639,6 +660,7 @@ public class UpdateMenu {
 						
 						@Override
 						public void actionPerformed(ActionEvent e) {
+							if(comboBox3.getSelectedItem()!=null){
 							String item = comboBox3.getSelectedItem().toString();
 
 							String[] temp = item.split(": ");
@@ -651,7 +673,7 @@ public class UpdateMenu {
 							try {
 								Connection con = DatabaseConnector.getConnection();
 								String SQL = "SELECT GradeID, Points FROM Grade "
-										+ "WHERE AssignmentID = ? and StudentID = ?)";
+										+ "WHERE AssignmentID = ? and StudentID = ?";
 
 								PreparedStatement pstmt = con.prepareStatement(SQL);
 								pstmt.setString(1, array[3]);
@@ -668,35 +690,38 @@ public class UpdateMenu {
 							} catch (SQLException exception) {
 								exception.printStackTrace();
 							}
-						}
+						}}
 					});
 					
 					cs.gridx = 0;
 					cs.gridy = 3;
 					cs.gridwidth = 2;
 					panel.add(comboBox4, cs);
+					
+					final JTextField points = new JTextField(array[0]);
+					points.addKeyListener(new LengthControler(points));
+
+					cs.gridx = 0;
+					cs.gridy = 4;
+					cs.gridwidth = 2;
+					panel.add(points, cs);
+					 
 					comboBox4.addActionListener(new ActionListener() {
 						
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							String item = comboBox3.getSelectedItem().toString();
+							if(comboBox2.getSelectedItem()!=null){
+							String item = comboBox4.getSelectedItem().toString();
 
 							String[] temp = item.split(": ");
 							//array[0] = Points
 							//array[1] = GradeID
 							array[0]=temp[2];
 							array[1]=temp[0];
-						}
+							points.setText(array[0]);
+						}}
 					});
-
-
-					final JTextField points = new JTextField(array[0]);
-					points.addKeyListener(new LengthControler(points));
-
-					cs.gridx = 0;
-					cs.gridy = 6;
-					cs.gridwidth = 2;
-					panel.add(points, cs);
+					
 
 					JButton update = new JButton("Update");
 					update.addActionListener(new ActionListener() {
@@ -708,7 +733,7 @@ public class UpdateMenu {
 
 
 							Connection con = DatabaseConnector.getConnection();
-							String SQL = "(UPDATE Grade SET  Points = ? WHERE GradeID = ?;";
+							String SQL = "UPDATE Grade SET  Points = ? WHERE GradeID = ?";
 
 							PreparedStatement pstmt;
 							try {
@@ -717,7 +742,6 @@ public class UpdateMenu {
 								pstmt.setString(2, array[1]);
 								
 								pstmt.execute();
-								pop.dispose();
 							} catch (SQLException exception) {
 								// TODO Auto-generated catch-block stub.
 								exception.printStackTrace();
@@ -727,7 +751,7 @@ public class UpdateMenu {
 					});
 
 					cs.gridx = 0;
-					cs.gridy = 6;
+					cs.gridy = 5;
 					cs.gridwidth = 1;
 					panel.add(update, cs);
 					JButton cancel = new JButton("Cancel");
@@ -739,7 +763,7 @@ public class UpdateMenu {
 						}
 					});
 					cs.gridx = 1;
-					cs.gridy = 6;
+					cs.gridy = 5;
 					cs.gridwidth = 1;
 					panel.add(cancel, cs);
 					
